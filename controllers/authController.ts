@@ -1,4 +1,4 @@
-//express router
+// Express Router
 import { Request, Response } from 'express';
 
 interface RegisterRequestBody {
@@ -27,6 +27,8 @@ const login = async (req: Request, res: Response) => {
     res.json({ email, password });
   } catch (err) {}
 };
+
+console.log('aaaa');
 
 module.exports = {
   register,

@@ -23,6 +23,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     catch (err) { }
 });
+console.log('aaaa');
 module.exports = {
     register,
     login,
