@@ -1,5 +1,6 @@
 // Express Router
 import { Request, Response } from 'express';
+const { Response } = require('express');
 
 interface RegisterRequestBody {
   email: string;
@@ -18,19 +19,23 @@ const register = async (req: Request, res: Response) => {
     req.body;
   try {
     res.json({ email, password, firstName, lastName });
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const login = async (req: Request, res: Response) => {
   const { email, password }: LoginRequestBody = req.body;
   try {
     res.json({ email, password });
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 console.log('aaaa');
 
-module.exports = {
+export default {
   register,
   login,
 };

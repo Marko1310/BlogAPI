@@ -9,22 +9,27 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const { Response } = require('express');
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password, firstName, lastName } = req.body;
     try {
         res.json({ email, password, firstName, lastName });
     }
-    catch (err) { }
+    catch (err) {
+        console.log(err);
+    }
 });
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
     try {
         res.json({ email, password });
     }
-    catch (err) { }
+    catch (err) {
+        console.log(err);
+    }
 });
 console.log('aaaa');
-module.exports = {
+exports.default = {
     register,
     login,
 };

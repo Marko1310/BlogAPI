@@ -1,11 +1,11 @@
 // Import dependencies
-const app = require('./app');
+import app from './app';
 
 // Setup server
 const PORT = process.env.PORT || 8000;
 
 //Import database
-const client = require('./config/databaseConnection');
+import client from './config/databaseConnection';
 
 // Start server
 async function connect(): Promise<void> {

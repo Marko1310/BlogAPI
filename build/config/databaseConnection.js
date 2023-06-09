@@ -17,4 +17,4 @@ const client = new pg_1.Client({
     //   ssl: true,
     ssl: false,
 });
-module.exports = client;
+exports.default = client;

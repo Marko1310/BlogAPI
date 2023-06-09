@@ -18,4 +18,4 @@ const client: Client = new Client({
   ssl: false,
 });
 
-module.exports = client;
+export default client;

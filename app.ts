@@ -23,4 +23,4 @@ app.use(cookieParser());
 app.use('/api', testRoute);
 app.use('/api', authRoute);
 
-module.exports = app;
+export default app;
