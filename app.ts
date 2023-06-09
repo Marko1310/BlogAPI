@@ -1,14 +1,15 @@
 // env variables
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 //Import dependencies
-import express, { Express, Request, Response } from 'express';
-const cors = require('express');
-const cookieParser = require('cookie-parser');
+import express, { Express } from 'express';
+import cors from 'express';
+import cookieParser from 'cookie-parser';
 
 // Routes
-const testRoute = require('./routes/testRoute');
-const authRoute = require('./routes/authRoute');
+import testRoute from './routes/testRoute';
+import authRoute from './routes/authRoute';
 
 const app: Express = express();
 
