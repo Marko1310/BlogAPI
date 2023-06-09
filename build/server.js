@@ -8,28 +8,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-require('dotenv').config();
-const express_1 = __importDefault(require("express"));
-const databaseConnection_1 = __importDefault(require("./config/databaseConnection"));
-const port = 8000;
-const app = (0, express_1.default)();
-app.get('/', (req, res) => {
-    res.send('Hello from the server');
-});
-app.get('/hi', (req, res) => {
-    res.send('Hi!!');
-});
+// Import dependencies
+const app = require('./app');
+// Setup server
+const PORT = process.env.PORT || 8000;
+//Import database
+const client = require('./config/databaseConnection');
+// Start server
 function connect() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            yield databaseConnection_1.default.connect();
+            yield client.connect();
             console.log('Connected to PostgreSQL');
-            app.listen(port, () => {
-                console.log(`now listening on port ${port}`);
+            app.listen(PORT, () => {
+                console.log(`now listening on port ${PORT}`);
             });
         }
         catch (error) {
