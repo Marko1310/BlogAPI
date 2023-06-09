@@ -7,9 +7,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require('dotenv').config();
 //Import dependencies
 const express_1 = __importDefault(require("express"));
-//database
+const cors = require('express');
+const cookieParser = require('cookie-parser');
+// Routes
+const testRoute = require('./routes/testRoute');
 const app = (0, express_1.default)();
-app.get('/', (req, res) => {
-    res.send('Hello from the server');
-});
+// Setup middleware
+app.use(cors());
+app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use('/api', testRoute);
 module.exports = app;
