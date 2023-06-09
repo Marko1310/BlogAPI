@@ -10,15 +10,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, password, firstName, lastName } = req.body;
     try {
-        const { email, password, firstName, lastName } = req.body;
         res.json({ email, password, firstName, lastName });
     }
     catch (err) { }
 });
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, password } = req.body;
     try {
-        res.json('login');
+        res.json({ email, password });
     }
     catch (err) { }
 });
