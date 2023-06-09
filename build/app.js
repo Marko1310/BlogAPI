@@ -11,11 +11,14 @@ const cors = require('express');
 const cookieParser = require('cookie-parser');
 // Routes
 const testRoute = require('./routes/testRoute');
+const authRoute = require('./routes/authRoute');
 const app = (0, express_1.default)();
 // Setup middleware
 app.use(cors());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(cookieParser());
+// Routes
 app.use('/api', testRoute);
+app.use('/api', authRoute);
 module.exports = app;

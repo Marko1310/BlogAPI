@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 
 // Routes
 const testRoute = require('./routes/testRoute');
+const authRoute = require('./routes/authRoute');
 
 const app: Express = express();
 
@@ -17,6 +18,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+// Routes
 app.use('/api', testRoute);
+app.use('/api', authRoute);
 
 module.exports = app;
