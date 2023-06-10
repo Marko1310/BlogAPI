@@ -1,5 +1,8 @@
 // Express Router
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
+
+// Global Error handler
+import AppError from '../services/appErrorServices';
 
 interface RegisterRequestBody {
   email: string;
@@ -28,15 +31,18 @@ const register = async (req: Request, res: Response) => {
   }
 };
 
-const login = async (req: Request, res: Response) => {
+const login = async (req: Request, res: Response, next: NextFunction) => {
   const { email, password }: LoginRequestBody = req.body;
   try {
+    if (password.length < 6) {
+      throw new AppError('bbb', 400);
+    }
     res.json({
       email,
       password,
     });
   } catch (err) {
-    console.log(err);
+    return next(err);
   }
 };
 

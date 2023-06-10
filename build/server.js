@@ -22,4 +22,5 @@ async function connect() {
         console.error('Error connecting to PostgreSQL:', error);
     }
 }
+console.log(process.env.NODE_ENV);
 connect();

@@ -2,7 +2,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 //Error Middleware
-import AppError from '../utils/appError';
+import AppError from '../services/appErrorServices';
 
 const notFound = async (req: Request, res: Response, next: NextFunction) => {
   try {

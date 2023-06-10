@@ -6,7 +6,8 @@
   "scripts": {
     "build": "npx tsc",
     "start": "node build/server.js",
-    "dev": "concurrently \"npx tsc -w\" \"nodemon build/server.js\""
+    "dev": "NODE_ENV=development concurrently \"npx tsc -w\" \"nodemon build/server.js\"",
+    "prod": "NODE_ENV=production concurrently \"npx tsc -w\" \"nodemon build/server.js\""
   },
   "author": "Marko",
   "license": "ISC",

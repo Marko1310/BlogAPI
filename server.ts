@@ -20,4 +20,6 @@ async function connect(): Promise<void> {
   }
 }
 
+console.log(process.env.NODE_ENV);
+
 connect();
