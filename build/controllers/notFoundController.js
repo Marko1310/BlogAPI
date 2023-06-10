@@ -9,26 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, password, firstName, lastName } = req.body;
+const notFound = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        res.json({
-            email,
-            password,
-            firstName,
-            lastName,
-        });
-    }
-    catch (err) {
-        console.log(err);
-    }
-});
-const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, password } = req.body;
-    try {
-        res.json({
-            email,
-            password,
+        res.status(404).json({
+            status: 'fail',
+            message: `Can't find ${req.originalUrl} on this server!`,
         });
     }
     catch (err) {
@@ -36,6 +21,5 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.default = {
-    register,
-    login,
+    notFound,
 };
