@@ -9,18 +9,18 @@ const app_1 = __importDefault(require("./app"));
 const PORT = process.env.PORT || 8000;
 //Import database
 const databaseConnection_1 = __importDefault(require("./config/databaseConnection"));
-// Start server
+// 1) Connect the database
+// 2) Start server
 async function connect() {
     try {
-        await databaseConnection_1.default.connect();
-        console.log('Connected to PostgreSQL');
+        await databaseConnection_1.default.authenticate();
+        console.log('Connection has been established successfully.');
         app_1.default.listen(PORT, () => {
             console.log(`now listening on port ${PORT}`);
         });
     }
     catch (error) {
-        console.error('Error connecting to PostgreSQL:', error);
+        console.error('Unable to connect to the database:', error);
     }
 }
-console.log(process.env.NODE_ENV);
 connect();

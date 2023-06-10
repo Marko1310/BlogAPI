@@ -5,21 +5,20 @@ import app from './app';
 const PORT = process.env.PORT || 8000;
 
 //Import database
-import client from './config/databaseConnection';
+import sequelize from './config/databaseConnection';
 
-// Start server
+// 1) Connect the database
+// 2) Start server
 async function connect(): Promise<void> {
   try {
-    await client.connect();
-    console.log('Connected to PostgreSQL');
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
     app.listen(PORT, () => {
       console.log(`now listening on port ${PORT}`);
     });
   } catch (error) {
-    console.error('Error connecting to PostgreSQL:', error);
+    console.error('Unable to connect to the database:', error);
   }
 }
-
-console.log(process.env.NODE_ENV);
 
 connect();

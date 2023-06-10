@@ -1,4 +1,4 @@
-import { Client } from 'pg';
+import { Sequelize } from 'sequelize';
 
 const user: string = process.env.DB_USER as string;
 const host: string = process.env.DB_HOST as string;
@@ -8,14 +8,10 @@ const port: number | undefined = process.env.DB_PORT
   ? parseInt(process.env.DB_PORT, 10)
   : undefined;
 
-const client: Client = new Client({
+const sequelize: Sequelize = new Sequelize(database, user, password, {
   host: host,
   port: port,
-  user: user,
-  password: password,
-  database: database,
-  //   ssl: true,
-  ssl: false,
+  dialect: 'postgres',
 });
 
-export default client;
+export default sequelize;
