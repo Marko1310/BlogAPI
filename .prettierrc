@@ -1,6 +1,3 @@
 {
-  "singleQuote": true,
-  "trailingComma": "all",
-  "object-curly-newline": true,
-  "object-property-newline": true
+  "singleQuote": true
 }
