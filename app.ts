@@ -12,6 +12,9 @@ import testRoute from './routes/testRoute';
 import authRoute from './routes/authRoute';
 import notFoundRoute from './routes/notFoundRoute';
 
+// Controllers
+import globallErrorHandler from './controllers/errorController';
+
 const app: Express = express();
 
 // Setup middleware
@@ -27,6 +30,8 @@ app.use(cookieParser());
 // Routes
 app.use('/api', testRoute);
 app.use('/api', authRoute);
-app.all('*', notFoundRoute);
+app.use('*', notFoundRoute);
+
+app.use(globallErrorHandler);
 
 export default app;

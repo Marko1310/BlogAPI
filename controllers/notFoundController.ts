@@ -1,12 +1,16 @@
 // Express Router
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 
-const notFound = async (req: Request, res: Response) => {
+//Error Middleware
+import AppError from '../utils/appError';
+
+const notFound = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    res.status(404).json({
-      status: 'fail',
-      message: `Can't find ${req.originalUrl} on this server!`,
-    });
+    const err = new AppError(
+      `Can't find ${req.originalUrl} on this server!`,
+      404
+    );
+    next(err);
   } catch (err) {
     console.log(err);
   }

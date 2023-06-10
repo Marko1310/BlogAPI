@@ -11,11 +11,9 @@ const express_1 = __importDefault(require("express"));
 const express_2 = __importDefault(require("express"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 // Routes
-const testRoute_1 = __importDefault(require("./routes/testRoute"));
-const authRoute_1 = __importDefault(require("./routes/authRoute"));
-const notFoundRoute_1 = __importDefault(require("./routes/notFoundRoute"));
-// Controllers
-const errorController_1 = __importDefault(require("./controllers/errorController"));
+const testRoute_1 = __importDefault(require("../routes/testRoute"));
+const authRoute_1 = __importDefault(require("../routes/authRoute"));
+const notFoundRoute_1 = __importDefault(require("../routes/notFoundRoute"));
 const app = (0, express_1.default)();
 // Setup middleware
 app.use((0, express_2.default)());
@@ -28,5 +26,12 @@ app.use((0, cookie_parser_1.default)());
 app.use('/api', testRoute_1.default);
 app.use('/api', authRoute_1.default);
 app.use('*', notFoundRoute_1.default);
-app.use(errorController_1.default);
+app.use((err, req, res, next) => {
+    err.statusCode = err.statusCode || 500;
+    err.status = err.status || 'error';
+    res.status(err.statusCode).json({
+        status: err.status,
+        message: err.message,
+    });
+});
 exports.default = app;
