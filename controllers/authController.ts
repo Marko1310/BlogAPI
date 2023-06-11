@@ -4,6 +4,12 @@ import { Request, Response, NextFunction } from 'express';
 // Global Error handler
 import AppError from '../services/appErrorServices';
 
+// Controllers
+import inputValidateController from './inputController';
+
+// services
+import userServices from '../services/userServices';
+
 interface RegisterRequestBody {
   email: string;
   password: string;
@@ -16,27 +22,37 @@ interface LoginRequestBody {
   password: string;
 }
 
-const register = async (req: Request, res: Response) => {
+const register = async (req: Request, res: Response, next: NextFunction) => {
   const { email, password, firstName, lastName }: RegisterRequestBody =
     req.body;
+
   try {
-    res.json({
+    inputValidateController.isValidEmail(email);
+    inputValidateController.isValidPassword(password);
+    inputValidateController.isValidName(firstName, 'First name');
+    inputValidateController.isValidName(lastName, 'Last name');
+
+    const user = await userServices.newUser(
       email,
       password,
       firstName,
-      lastName,
+      lastName
+    );
+
+    res.json({
+      user,
     });
   } catch (err) {
-    console.log(err);
+    return next(err);
   }
 };
 
 const login = async (req: Request, res: Response, next: NextFunction) => {
   const { email, password }: LoginRequestBody = req.body;
   try {
-    if (password.length < 6) {
-      throw new AppError('bbb', 400);
-    }
+    inputValidateController.isValidEmail(email);
+    inputValidateController.isValidPassword(password);
+
     res.json({
       email,
       password,

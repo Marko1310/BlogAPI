@@ -3,28 +3,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// Global Error handler
-const appErrorServices_1 = __importDefault(require("../services/appErrorServices"));
-const register = async (req, res) => {
+// Controllers
+const inputController_1 = __importDefault(require("./inputController"));
+// services
+const userServices_1 = __importDefault(require("../services/userServices"));
+const register = async (req, res, next) => {
     const { email, password, firstName, lastName } = req.body;
     try {
+        inputController_1.default.isValidEmail(email);
+        inputController_1.default.isValidPassword(password);
+        inputController_1.default.isValidName(firstName, 'First name');
+        inputController_1.default.isValidName(lastName, 'Last name');
+        const user = await userServices_1.default.newUser(email, password, firstName, lastName);
         res.json({
-            email,
-            password,
-            firstName,
-            lastName,
+            user,
         });
     }
     catch (err) {
-        console.log(err);
+        return next(err);
     }
 };
 const login = async (req, res, next) => {
     const { email, password } = req.body;
     try {
-        if (password.length < 6) {
-            throw new appErrorServices_1.default('bbb', 400);
-        }
+        inputController_1.default.isValidEmail(email);
+        inputController_1.default.isValidPassword(password);
         res.json({
             email,
             password,

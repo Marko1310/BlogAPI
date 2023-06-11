@@ -21,12 +21,6 @@ module.exports = {
         array: false,
       },
     ],
-    'no-unused-vars': [
-      'error',
-      {
-        argsIgnorePattern: 'req|res|next|val',
-      },
-    ],
     camelcase: 'off',
     'object-curly-newline': [
       'error',
