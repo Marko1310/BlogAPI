@@ -1,6 +1,6 @@
-import DataTypes from 'sequelize';
 import sequelize from '../config/databaseConnection';
 import User from './user'; // Import the User model
+import { DataTypes } from 'sequelize';
 
 const Blog = sequelize.define(
   'blog',
@@ -25,6 +25,10 @@ const Blog = sequelize.define(
     },
     allowed: {
       type: DataTypes.STRING,
+      allowNull: false,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
   },

@@ -14,7 +14,7 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-      set(value) {
+      set(value: string) {
         this.setDataValue('email', value.toLowerCase());
       },
       validate: {
@@ -60,6 +60,17 @@ const User = sequelize.define(
         },
         notEmpty: {
           msg: 'Last name cannot be empty',
+        },
+      },
+    },
+    permission: {
+      type: DataTypes.STRING,
+      defaultValue: 'user',
+      allowNull: false,
+      validate: {
+        isIn: {
+          args: [['user', 'blogger', 'admin']],
+          msg: 'Invalid permission value',
         },
       },
     },

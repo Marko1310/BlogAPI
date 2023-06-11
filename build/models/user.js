@@ -65,6 +65,17 @@ const User = databaseConnection_1.default.define('user', {
             },
         },
     },
+    permission: {
+        type: sequelize_1.default.STRING,
+        defaultValue: 'user',
+        allowNull: false,
+        validate: {
+            isIn: {
+                args: [['user', 'blogger', 'admin']],
+                msg: 'Invalid permission value',
+            },
+        },
+    },
 }, {
     timestamps: false,
 });
