@@ -26,8 +26,9 @@ const Blog = databaseConnection_1.default.define('blog', {
         allowNull: false,
     },
     allowed: {
-        type: sequelize_1.DataTypes.STRING,
+        type: sequelize_1.DataTypes.BOOLEAN,
         allowNull: false,
+        defaultValue: false,
     },
     userId: {
         type: sequelize_1.DataTypes.INTEGER,

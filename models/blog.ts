@@ -24,8 +24,9 @@ const Blog = sequelize.define(
       allowNull: false,
     },
     allowed: {
-      type: DataTypes.STRING,
+      type: DataTypes.BOOLEAN,
       allowNull: false,
+      defaultValue: false,
     },
     userId: {
       type: DataTypes.INTEGER,
