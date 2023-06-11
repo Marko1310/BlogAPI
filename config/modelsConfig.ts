@@ -2,6 +2,9 @@ import User from '../models/user';
 import Blog from '../models/blog';
 import sequelize from './databaseConnection';
 
+// Global Error handler
+import AppError from '../services/appErrorServices';
+
 User.hasMany(Blog, {
   foreignKey: 'userId',
 });
@@ -20,6 +23,10 @@ const syncModels = async () => {
     });
   } catch (err) {
     console.log('Error synchronizing models:', err);
+    throw new AppError(
+      'Database synchronization failed. Server cannot start.',
+      500
+    );
   }
 };
 
