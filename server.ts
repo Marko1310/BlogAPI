@@ -4,21 +4,22 @@ import app from './app';
 // Setup server
 const PORT = process.env.PORT || 8000;
 
-//Import database
-import sequelize from './config/databaseConnection';
+//import model config
+import syncModels from './config/modelsConfig';
 
-// 1) Connect the database
+// 1) Connect the database, sync models
 // 2) Start server
-async function connect(): Promise<void> {
+const startServer = async () => {
   try {
-    await sequelize.authenticate();
-    console.log('Connection has been established successfully.');
+    await syncModels();
+    console.log(`All models are in sync`);
+
     app.listen(PORT, () => {
-      console.log(`now listening on port ${PORT}`);
+      console.log(`Server is running on port ${PORT}`);
     });
   } catch (error) {
-    console.error('Unable to connect to the database:', error);
+    console.log('Error starting server:', error);
   }
-}
+};
 
-connect();
+startServer();

@@ -1,0 +1,29 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const user_1 = __importDefault(require("../models/user"));
+const blog_1 = __importDefault(require("../models/blog"));
+const databaseConnection_1 = __importDefault(require("./databaseConnection"));
+user_1.default.hasMany(blog_1.default, {
+    foreignKey: 'userId',
+});
+blog_1.default.belongsTo(user_1.default, {
+    foreignKey: 'userId',
+});
+const syncModels = async () => {
+    try {
+        await databaseConnection_1.default.authenticate();
+        await user_1.default.sync({
+            alter: true,
+        });
+        await blog_1.default.sync({
+            alter: true,
+        });
+    }
+    catch (err) {
+        console.log('Error synchronizing models:', err);
+    }
+};
+exports.default = syncModels;

@@ -7,20 +7,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = __importDefault(require("./app"));
 // Setup server
 const PORT = process.env.PORT || 8000;
-//Import database
-const databaseConnection_1 = __importDefault(require("./config/databaseConnection"));
-// 1) Connect the database
+//import model config
+const modelsConfig_1 = __importDefault(require("./config/modelsConfig"));
+// 1) Connect the database, sync models
 // 2) Start server
-async function connect() {
+const startServer = async () => {
     try {
-        await databaseConnection_1.default.authenticate();
-        console.log('Connection has been established successfully.');
+        await (0, modelsConfig_1.default)();
+        console.log(`All models are in sync`);
         app_1.default.listen(PORT, () => {
-            console.log(`now listening on port ${PORT}`);
+            console.log(`Server is running on port ${PORT}`);
         });
     }
     catch (error) {
-        console.error('Unable to connect to the database:', error);
+        console.log('Error starting server:', error);
     }
-}
-connect();
+};
+startServer();
