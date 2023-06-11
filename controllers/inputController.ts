@@ -12,7 +12,7 @@ const isValidEmail = (email: string) => {
 };
 
 const isValidPassword = (password: string) => {
-  if (password.length >= 6) {
+  if (password.length < 6) {
     throw new AppError('Password should be at least 6 characters long', 400);
   }
 };

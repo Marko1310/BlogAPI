@@ -1,9 +1,6 @@
 // Express Router
 import { Request, Response, NextFunction } from 'express';
 
-// Global Error handler
-import AppError from '../services/appErrorServices';
-
 // Controllers
 import inputValidateController from './inputController';
 
@@ -27,11 +24,13 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
     req.body;
 
   try {
+    // basic input check
     inputValidateController.isValidEmail(email);
     inputValidateController.isValidPassword(password);
     inputValidateController.isValidName(firstName, 'First name');
     inputValidateController.isValidName(lastName, 'Last name');
 
+    // create a new user
     const user = await userServices.newUser(
       email,
       password,
@@ -50,6 +49,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 const login = async (req: Request, res: Response, next: NextFunction) => {
   const { email, password }: LoginRequestBody = req.body;
   try {
+    // basic input check
     inputValidateController.isValidEmail(email);
     inputValidateController.isValidPassword(password);
 

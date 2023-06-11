@@ -14,7 +14,7 @@ const isValidEmail = (email) => {
     }
 };
 const isValidPassword = (password) => {
-    if (password.length >= 6) {
+    if (password.length < 6) {
         throw new appErrorServices_1.default('Password should be at least 6 characters long', 400);
     }
 };
