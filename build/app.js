@@ -20,9 +20,7 @@ const app = (0, express_1.default)();
 // Setup middleware
 app.use((0, express_2.default)());
 app.use(express_1.default.json());
-app.use(express_1.default.urlencoded({
-    extended: true,
-}));
+app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cookie_parser_1.default)());
 // Routes
 app.use('/api', testRoute_1.default);

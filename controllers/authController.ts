@@ -4,18 +4,15 @@ import bcrypt from 'bcryptjs';
 // Express Router
 import { Request, Response, NextFunction } from 'express';
 
+// User model
+import { User, UserOutput, UserInput } from '../models/user';
+
 // Controllers
 import inputValidateController from './inputController';
 
 // services
 import userServices from '../services/userServices';
-
-interface RegisterRequestBody {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-}
+import jwtServices from '../services/jwtServices';
 
 interface LoginRequestBody {
   email: string;
@@ -30,8 +27,7 @@ enum MaxAge {
 }
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
-  const { email, password, firstName, lastName }: RegisterRequestBody =
-    req.body;
+  const { email, password, firstName, lastName }: UserInput = req.body;
 
   try {
     // basic input check
@@ -41,14 +37,18 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
     inputValidateController.isValidName(lastName, 'Last name');
 
     // create a new user
-    const user = await userServices.newUser(
+    const user: UserOutput = await userServices.newUser(
       email,
       password,
       firstName,
       lastName
     );
 
-    res.json({ user });
+    const token = jwtServices.createToken(user.userId, MaxAge.OneWeek);
+
+    res.cookie('jwt', token, { httpOnly: true, maxAge: MaxAge.OneWeekMiliSec });
+
+    res.status(200).json({ userId: user.userId });
   } catch (err) {
     return next(err);
   }

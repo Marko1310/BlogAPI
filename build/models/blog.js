@@ -4,9 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const databaseConnection_1 = __importDefault(require("../config/databaseConnection"));
-const user_1 = __importDefault(require("./user")); // Import the User model
+const user_1 = require("./user"); // Import the User model
 const sequelize_1 = require("sequelize");
-const Blog = databaseConnection_1.default.define('blog', {
+class Blog extends sequelize_1.Model {
+}
+Blog.init({
     blogId: {
         type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
@@ -35,9 +37,11 @@ const Blog = databaseConnection_1.default.define('blog', {
         allowNull: false,
     },
 }, {
+    sequelize: databaseConnection_1.default,
+    modelName: 'Blog',
     timestamps: true,
 });
-Blog.belongsTo(user_1.default, {
+Blog.belongsTo(user_1.User, {
     foreignKey: 'userId',
 });
 exports.default = Blog;

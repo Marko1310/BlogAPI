@@ -14,20 +14,14 @@ module.exports = {
     'no-return-await': 'off',
     'no-underscore-dangle': 'off',
     'class-methods-use-this': 'off',
-    'prefer-destructuring': [
-      'error',
-      {
-        object: true,
-        array: false,
-      },
-    ],
+    'prefer-destructuring': ['error', { object: true, array: false }],
     camelcase: 'off',
-    'object-curly-newline': [
-      'error',
-      {
-        ObjectExpression: 'never',
-        ObjectPattern: 'never',
-      },
-    ],
+    // 'object-curly-newline': [
+    //   'error',
+    //   {
+    //     ObjectExpression: 'never',
+    //     ObjectPattern: 'never',
+    //   },
+    // ],
   },
 };

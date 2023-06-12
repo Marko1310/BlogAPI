@@ -1,9 +1,26 @@
 import sequelize from '../config/databaseConnection';
-import User from './user'; // Import the User model
-import { DataTypes } from 'sequelize';
+import { User } from './user'; // Import the User model
+import { Model, DataTypes } from 'sequelize';
 
-const Blog = sequelize.define(
-  'blog',
+interface BlogAttributes {
+  blogId: number;
+  title: string;
+  content: string;
+  author: string;
+  allowed: boolean;
+  userId: number;
+}
+
+class Blog extends Model<BlogAttributes> implements BlogAttributes {
+  declare blogId: number;
+  declare title: string;
+  declare content: string;
+  declare author: string;
+  declare allowed: boolean;
+  declare userId: number;
+}
+
+Blog.init(
   {
     blogId: {
       type: DataTypes.INTEGER,
@@ -34,6 +51,8 @@ const Blog = sequelize.define(
     },
   },
   {
+    sequelize,
+    modelName: 'Blog',
     timestamps: true,
   }
 );

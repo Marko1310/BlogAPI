@@ -23,8 +23,4 @@ const isValidName = (name, fieldName) => {
         throw new appErrorServices_1.default(`${fieldName} cannot be empty`, 400);
     }
 };
-exports.default = {
-    isValidEmail,
-    isValidPassword,
-    isValidName,
-};
+exports.default = { isValidEmail, isValidPassword, isValidName };
