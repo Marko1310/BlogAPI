@@ -23,10 +23,10 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 
   try {
     // basic input check
-    inputValidateController.isValidEmail(email);
-    inputValidateController.isValidPassword(password);
-    inputValidateController.isValidName(firstName, 'First name');
-    inputValidateController.isValidName(lastName, 'Last name');
+    // inputValidateController.isValidEmail(email);
+    // inputValidateController.isValidPassword(password);
+    // inputValidateController.isValidName(firstName, 'First name');
+    // inputValidateController.isValidName(lastName, 'Last name');
 
     // create a new user
     const user: UserOutput = await userServices.newUser(
@@ -71,6 +71,31 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
   } catch (err) {
     return next(err);
   }
+};
+
+const protect = async (req: Request, res: Response, next: NextFunction) => {
+  // 1. Getting the token and check if it's there
+  let token;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    token = req.headers.authorization.split(' ')[1];
+  }
+
+  if (!token) {
+    return next(
+      new AppError('You are not logged in! Please log iin to get access.', 401)
+    );
+  }
+
+  // 2. Verification token
+
+  // 3. Check if user still exists
+
+  // 4. Check if user changed password after the token was issued
+
+  next();
 };
 
 export default { register, login };

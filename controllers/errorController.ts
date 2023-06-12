@@ -1,15 +1,22 @@
 import { Request, Response, NextFunction } from 'express';
 import AppError from '../services/appErrorServices';
-import Sequelize from 'sequelize';
+import Sequelize, { ValidationError, UniqueConstraintError } from 'sequelize';
 
 const globallErrorHandler = (
-  err: AppError,
+  err: any,
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
+
+  const handleSequelizeErrors = (
+    err: ValidationError | UniqueConstraintError
+  ) => {
+    const errMessage = err.errors[0].message;
+    return new AppError(errMessage, 400);
+  };
 
   const sendErrorDev = (err: AppError, res: Response) => {
     if (err instanceof Sequelize.ValidationError) {
@@ -31,12 +38,6 @@ const globallErrorHandler = (
       res
         .status(err.statusCode)
         .json({ status: err.status, message: err.message });
-      // Sequelize error
-    } else if (err instanceof Sequelize.ValidationError) {
-      res.status(err.statusCode).json({
-        status: err.status,
-        message: err.errors[0].message,
-      });
     } else {
       // Programming error
       console.error('Error', err);
@@ -49,7 +50,15 @@ const globallErrorHandler = (
   if (process.env.NODE_ENV === 'development') {
     sendErrorDev(err, res);
   } else if (process.env.NODE_ENV === 'production') {
-    sendErrorProd(err, res);
+    let error = { ...err };
+    // Sequelize error
+    if (
+      error instanceof Sequelize.ValidationError ||
+      Sequelize.UniqueConstraintError
+    ) {
+      error = handleSequelizeErrors(error);
+    }
+    sendErrorProd(error, res);
   }
 };
 
