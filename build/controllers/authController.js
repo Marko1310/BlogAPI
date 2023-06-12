@@ -3,6 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+// Controllers
+const inputController_1 = __importDefault(require("./inputController"));
 // services
 const userServices_1 = __importDefault(require("../services/userServices"));
 const jwtServices_1 = __importDefault(require("../services/jwtServices"));
@@ -12,10 +14,10 @@ const register = async (req, res, next) => {
     const { email, password, firstName, lastName } = req.body;
     try {
         // basic input check
-        // inputValidateController.isValidEmail(email);
-        // inputValidateController.isValidPassword(password);
-        // inputValidateController.isValidName(firstName, 'First name');
-        // inputValidateController.isValidName(lastName, 'Last name');
+        inputController_1.default.isValidEmail(email);
+        inputController_1.default.isValidPassword(password);
+        inputController_1.default.isValidName(firstName, 'First name');
+        inputController_1.default.isValidName(lastName, 'Last name');
         // create a new user
         const user = await userServices_1.default.newUser(email, password, firstName, lastName);
         // create and send token
@@ -59,11 +61,17 @@ const protect = async (req, res, next) => {
         token = req.headers.authorization.split(' ')[1];
     }
     if (!token) {
-        return next(new appErrorServices_1.default('You are not logged in! Please log iin to get access.', 401));
+        return next(new appErrorServices_1.default('You are not logged in! Please log in to get access.', 401));
     }
     // 2. Verification token
+    const decodedToken = jwtServices_1.default.verifyJwtToken(token);
+    // if (!decodedToken) {
+    //   return next(
+    //     new AppError('You are not logged in! Please log in to get access.', 401)
+    //   );
+    // }
     // 3. Check if user still exists
     // 4. Check if user changed password after the token was issued
     next();
 };
-exports.default = { register, login };
+exports.default = { register, login, protect };

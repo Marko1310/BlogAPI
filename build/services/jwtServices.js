@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // dependencies
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const appErrorServices_1 = __importDefault(require("./appErrorServices"));
 const jwtSecret = process.env.JWT_SECRET;
 var MaxAge;
 (function (MaxAge) {
@@ -21,16 +20,7 @@ const sendJwtResponse = (user, res) => {
     res.cookie('jwt', token, { httpOnly: true, maxAge: MaxAge.OneWeekMiliSec });
     res.status(200).json({ userId: user.userId });
 };
-const verifyJwtToken = (token, secret) => {
-    try {
-        const decodedToken = jsonwebtoken_1.default.verify(token, secret);
-        if (token) {
-            return true;
-        }
-        else {
-            throw new appErrorServices_1.default('Invalid token. Please log in again', 401);
-        }
-    }
-    catch (err) { }
+const verifyJwtToken = (token) => {
+    return jsonwebtoken_1.default.verify(token, jwtSecret);
 };
-exports.default = { sendJwtResponse };
+exports.default = { sendJwtResponse, verifyJwtToken };

@@ -45,13 +45,13 @@ const globallErrorHandler = (err, req, res, next) => {
         sendErrorDev(err, res);
     }
     else if (process.env.NODE_ENV === 'production') {
-        let error = { ...err };
         // Sequelize error
-        if (error instanceof sequelize_1.default.ValidationError ||
-            sequelize_1.default.UniqueConstraintError) {
-            error = handleSequelizeErrors(error);
+        if (err instanceof sequelize_1.default.ValidationError ||
+            err instanceof sequelize_1.default.UniqueConstraintError) {
+            const seqError = handleSequelizeErrors(err);
+            sendErrorProd(seqError, res);
         }
-        sendErrorProd(error, res);
+        sendErrorProd(err, res);
     }
 };
 exports.default = globallErrorHandler;

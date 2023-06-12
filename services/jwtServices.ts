@@ -6,7 +6,6 @@ import { Response } from 'express';
 
 // User model
 import { UserOutput } from '../models/user';
-import AppError from './appErrorServices';
 
 const jwtSecret: string = process.env.JWT_SECRET as string;
 
@@ -25,15 +24,8 @@ const sendJwtResponse = (user: UserOutput, res: Response) => {
   res.status(200).json({ userId: user.userId });
 };
 
-const verifyJwtToken = (token: string, secret: string) => {
-  try {
-    const decodedToken = jwt.verify(token, secret);
-    if (token) {
-      return true;
-    } else {
-      throw new AppError('Invalid token. Please log in again', 401);
-    }
-  } catch (err) {}
+const verifyJwtToken = (token: string) => {
+  return jwt.verify(token, jwtSecret);
 };
 
-export default { sendJwtResponse };
+export default { sendJwtResponse, verifyJwtToken };

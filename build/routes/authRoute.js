@@ -11,4 +11,5 @@ const authController_1 = __importDefault(require("../controllers/authController"
 // routes
 router.post('/auth/register', authController_1.default.register);
 router.post('/auth/login', authController_1.default.login);
+router.post('/auth/test', authController_1.default.protect, authController_1.default.login);
 exports.default = router;

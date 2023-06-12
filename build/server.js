@@ -23,4 +23,9 @@ const startServer = async () => {
         console.log('Error starting server:', error);
     }
 };
+process.on('unhandledRejection', (err) => {
+    console.log(err.name, err.message);
+    console.log('UNHANDLED REJECTION! Shutting down...');
+    process.exit(1);
+});
 startServer();

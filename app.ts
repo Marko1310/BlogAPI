@@ -4,7 +4,7 @@ dotenv.config();
 
 //Import dependencies
 import express, { Express } from 'express';
-import cors from 'express';
+import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
 // Routes
@@ -27,7 +27,6 @@ app.use(cookieParser());
 app.use('/api', testRoute);
 app.use('/api', authRoute);
 app.use('*', notFoundRoute);
-
 app.use(globallErrorHandler);
 
 export default app;

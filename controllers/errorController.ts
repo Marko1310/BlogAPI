@@ -50,15 +50,16 @@ const globallErrorHandler = (
   if (process.env.NODE_ENV === 'development') {
     sendErrorDev(err, res);
   } else if (process.env.NODE_ENV === 'production') {
-    let error = { ...err };
     // Sequelize error
     if (
-      error instanceof Sequelize.ValidationError ||
-      Sequelize.UniqueConstraintError
+      err instanceof Sequelize.ValidationError ||
+      err instanceof Sequelize.UniqueConstraintError
     ) {
-      error = handleSequelizeErrors(error);
+      const seqError = handleSequelizeErrors(err);
+      sendErrorProd(seqError, res);
     }
-    sendErrorProd(error, res);
+
+    sendErrorProd(err, res);
   }
 };
 

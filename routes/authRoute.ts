@@ -9,5 +9,6 @@ import authController from '../controllers/authController';
 // routes
 router.post('/auth/register', authController.register);
 router.post('/auth/login', authController.login);
+router.post('/auth/test', authController.protect, authController.login);
 
 export default router;

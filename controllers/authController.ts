@@ -23,10 +23,10 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 
   try {
     // basic input check
-    // inputValidateController.isValidEmail(email);
-    // inputValidateController.isValidPassword(password);
-    // inputValidateController.isValidName(firstName, 'First name');
-    // inputValidateController.isValidName(lastName, 'Last name');
+    inputValidateController.isValidEmail(email);
+    inputValidateController.isValidPassword(password);
+    inputValidateController.isValidName(firstName, 'First name');
+    inputValidateController.isValidName(lastName, 'Last name');
 
     // create a new user
     const user: UserOutput = await userServices.newUser(
@@ -85,11 +85,17 @@ const protect = async (req: Request, res: Response, next: NextFunction) => {
 
   if (!token) {
     return next(
-      new AppError('You are not logged in! Please log iin to get access.', 401)
+      new AppError('You are not logged in! Please log in to get access.', 401)
     );
   }
 
   // 2. Verification token
+  const decodedToken = jwtServices.verifyJwtToken(token);
+  // if (!decodedToken) {
+  //   return next(
+  //     new AppError('You are not logged in! Please log in to get access.', 401)
+  //   );
+  // }
 
   // 3. Check if user still exists
 
@@ -98,4 +104,4 @@ const protect = async (req: Request, res: Response, next: NextFunction) => {
   next();
 };
 
-export default { register, login };
+export default { register, login, protect };
