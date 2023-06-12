@@ -1,8 +1,11 @@
+// Dependencies
+import bcrypt from 'bcryptjs';
+
 // Express Router
 import { Request, Response, NextFunction } from 'express';
 
 // User model
-import { User, UserOutput, UserInput } from '../models/user';
+import { UserOutput, UserInput } from '../models/user';
 
 // Controllers
 import inputValidateController from './inputController';
@@ -10,6 +13,7 @@ import inputValidateController from './inputController';
 // services
 import userServices from '../services/userServices';
 import jwtServices from '../services/jwtServices';
+import AppError from '../services/appErrorServices';
 
 interface LoginRequestBody {
   email: string;
@@ -60,6 +64,29 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     const user = await userServices.findUserbyEmail(email);
 
     if (user) {
+      const auth = await bcrypt.compare(password, user.password);
+      if (auth) {
+        const token = jwtServices.createToken(user.userId, MaxAge.OneWeek);
+        res.cookie('jwt', token, {
+          httpOnly: true,
+          maxAge: MaxAge.OneWeekMiliSec,
+        });
+        res.status(200).json({ userId: user.userId });
+      } else {
+        throw new AppError(
+          process.env.NODE_ENV === 'production'
+            ? 'Something is wrong with your credentials'
+            : 'Wrong password',
+          400
+        );
+      }
+    } else {
+      throw new AppError(
+        process.env.NODE_ENV === 'production'
+          ? 'Something is wrong with your credentials'
+          : 'Email does not exist',
+        400
+      );
     }
   } catch (err) {
     return next(err);

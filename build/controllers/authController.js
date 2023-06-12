@@ -3,11 +3,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+// Dependencies
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 // Controllers
 const inputController_1 = __importDefault(require("./inputController"));
 // services
 const userServices_1 = __importDefault(require("../services/userServices"));
 const jwtServices_1 = __importDefault(require("../services/jwtServices"));
+const appErrorServices_1 = __importDefault(require("../services/appErrorServices"));
 var MaxAge;
 (function (MaxAge) {
     MaxAge[MaxAge["OneDay"] = 86400] = "OneDay";
@@ -43,6 +46,25 @@ const login = async (req, res, next) => {
         inputController_1.default.isValidPassword(password);
         const user = await userServices_1.default.findUserbyEmail(email);
         if (user) {
+            const auth = await bcryptjs_1.default.compare(password, user.password);
+            if (auth) {
+                const token = jwtServices_1.default.createToken(user.userId, MaxAge.OneWeek);
+                res.cookie('jwt', token, {
+                    httpOnly: true,
+                    maxAge: MaxAge.OneWeekMiliSec,
+                });
+                res.status(200).json({ userId: user.userId });
+            }
+            else {
+                throw new appErrorServices_1.default(process.env.NODE_ENV === 'production'
+                    ? 'Something is wrong with your credentials'
+                    : 'Wrong password', 400);
+            }
+        }
+        else {
+            throw new appErrorServices_1.default(process.env.NODE_ENV === 'production'
+                ? 'Something is wrong with your credentials'
+                : 'Email does not exist', 400);
         }
     }
     catch (err) {
