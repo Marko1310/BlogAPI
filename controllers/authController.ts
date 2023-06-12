@@ -1,6 +1,3 @@
-// dependencies
-import bcrypt from 'bcryptjs';
-
 // Express Router
 import { Request, Response, NextFunction } from 'express';
 
@@ -60,7 +57,10 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     inputValidateController.isValidEmail(email);
     inputValidateController.isValidPassword(password);
 
-    res.json({ email, password });
+    const user = await userServices.findUserbyEmail(email);
+
+    if (user) {
+    }
   } catch (err) {
     return next(err);
   }

@@ -1,5 +1,6 @@
 import { Model, DataTypes, Optional } from 'sequelize';
 import sequelize from '../config/databaseConnection';
+import bcrypt from 'bcryptjs';
 
 interface UserAttributes {
   permission: string;
@@ -93,5 +94,10 @@ User.init(
     timestamps: false,
   }
 );
+
+User.beforeCreate(async (user) => {
+  const hashedPassword = await bcrypt.hash(user.password, 10);
+  user.password = hashedPassword;
+});
 
 export { User, UserOutput, UserInput };

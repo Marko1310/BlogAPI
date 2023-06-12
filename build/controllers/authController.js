@@ -41,7 +41,9 @@ const login = async (req, res, next) => {
         // basic input check
         inputController_1.default.isValidEmail(email);
         inputController_1.default.isValidPassword(password);
-        res.json({ email, password });
+        const user = await userServices_1.default.findUserbyEmail(email);
+        if (user) {
+        }
     }
     catch (err) {
         return next(err);

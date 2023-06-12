@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const sequelize_1 = require("sequelize");
 const databaseConnection_1 = __importDefault(require("../config/databaseConnection"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 class User extends sequelize_1.Model {
 }
 exports.User = User;
@@ -70,4 +71,8 @@ User.init({
     sequelize: databaseConnection_1.default,
     modelName: 'User',
     timestamps: false,
+});
+User.beforeCreate(async (user) => {
+    const hashedPassword = await bcryptjs_1.default.hash(user.password, 10);
+    user.password = hashedPassword;
 });
