@@ -43,11 +43,10 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
       firstName,
       lastName
     );
-
+    // create token
     const token = jwtServices.createToken(user.userId, MaxAge.OneWeek);
-
+    // attach cookie to res object
     res.cookie('jwt', token, { httpOnly: true, maxAge: MaxAge.OneWeekMiliSec });
-
     res.status(200).json({ userId: user.userId });
   } catch (err) {
     return next(err);

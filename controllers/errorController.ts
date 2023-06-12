@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import AppError from '../services/appErrorServices';
+import Sequelize from 'sequelize';
 
 const globallErrorHandler = (
   err: AppError,
@@ -11,9 +12,17 @@ const globallErrorHandler = (
   err.status = err.status || 'error';
 
   const sendErrorDev = (err: AppError, res: Response) => {
-    res
-      .status(err.statusCode)
-      .json({ status: err.status, error: err, message: err.message });
+    if (err instanceof Sequelize.ValidationError) {
+      res.status(err.statusCode).json({
+        status: err.status,
+        error: err,
+        message: err.errors[0].message,
+      });
+    } else {
+      res
+        .status(err.statusCode)
+        .json({ status: err.status, error: err, message: err.message });
+    }
   };
 
   const sendErrorProd = (err: AppError, res: Response) => {
@@ -22,6 +31,12 @@ const globallErrorHandler = (
       res
         .status(err.statusCode)
         .json({ status: err.status, message: err.message });
+      // Sequelize error
+    } else if (err instanceof Sequelize.ValidationError) {
+      res.status(err.statusCode).json({
+        status: err.status,
+        message: err.errors[0].message,
+      });
     } else {
       // Programming error
       console.error('Error', err);

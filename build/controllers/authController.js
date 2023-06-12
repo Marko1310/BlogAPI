@@ -25,7 +25,9 @@ const register = async (req, res, next) => {
         inputController_1.default.isValidName(lastName, 'Last name');
         // create a new user
         const user = await userServices_1.default.newUser(email, password, firstName, lastName);
+        // create token
         const token = jwtServices_1.default.createToken(user.userId, MaxAge.OneWeek);
+        // attach cookie to res object
         res.cookie('jwt', token, { httpOnly: true, maxAge: MaxAge.OneWeekMiliSec });
         res.status(200).json({ userId: user.userId });
     }
