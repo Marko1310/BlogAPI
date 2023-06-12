@@ -25,7 +25,7 @@ module.exports = {
     'object-curly-newline': [
       'error',
       {
-        ObjectExpression: 'always',
+        ObjectExpression: 'never',
         ObjectPattern: 'never',
       },
     ],

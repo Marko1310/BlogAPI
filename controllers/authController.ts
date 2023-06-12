@@ -1,3 +1,6 @@
+// dependencies
+import bcrypt from 'bcryptjs';
+
 // Express Router
 import { Request, Response, NextFunction } from 'express';
 
@@ -19,6 +22,13 @@ interface LoginRequestBody {
   password: string;
 }
 
+enum MaxAge {
+  OneDay = 24 * 60 * 60, // 1 day in seconds
+  OneWeek = 7 * OneDay, // 1 week in seconds
+  OneDayMiliSec = 1000 * 24 * 60 * 60, // 1 day in miliseconds
+  OneWeekMiliSec = 1000 * 7 * OneDay, // 1 week in miliseconds
+}
+
 const register = async (req: Request, res: Response, next: NextFunction) => {
   const { email, password, firstName, lastName }: RegisterRequestBody =
     req.body;
@@ -38,9 +48,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
       lastName
     );
 
-    res.json({
-      user,
-    });
+    res.json({ user });
   } catch (err) {
     return next(err);
   }
@@ -53,16 +61,10 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     inputValidateController.isValidEmail(email);
     inputValidateController.isValidPassword(password);
 
-    res.json({
-      email,
-      password,
-    });
+    res.json({ email, password });
   } catch (err) {
     return next(err);
   }
 };
 
-export default {
-  register,
-  login,
-};
+export default { register, login };

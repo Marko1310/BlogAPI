@@ -23,8 +23,4 @@ const isValidName = (name: string, fieldName: string) => {
   }
 };
 
-export default {
-  isValidEmail,
-  isValidPassword,
-  isValidName,
-};
+export default { isValidEmail, isValidPassword, isValidName };

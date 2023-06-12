@@ -8,14 +8,7 @@ const newUser = async function (
   firstName: string,
   lastName: string
 ) {
-  return User.create({
-    firstName,
-    lastName,
-    email,
-    password,
-  });
+  return User.create({ firstName, lastName, email, password });
 };
 
-export default {
-  newUser,
-};
+export default { newUser };
