@@ -3,21 +3,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// Dependencies
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
 // Controllers
 const inputController_1 = __importDefault(require("./inputController"));
 // services
 const userServices_1 = __importDefault(require("../services/userServices"));
 const jwtServices_1 = __importDefault(require("../services/jwtServices"));
 const appErrorServices_1 = __importDefault(require("../services/appErrorServices"));
-var MaxAge;
-(function (MaxAge) {
-    MaxAge[MaxAge["OneDay"] = 86400] = "OneDay";
-    MaxAge[MaxAge["OneWeek"] = 604800] = "OneWeek";
-    MaxAge[MaxAge["OneDayMiliSec"] = 86400000] = "OneDayMiliSec";
-    MaxAge[MaxAge["OneWeekMiliSec"] = 604800000] = "OneWeekMiliSec";
-})(MaxAge || (MaxAge = {}));
+const bcryptServices_1 = __importDefault(require("../services/bcryptServices"));
 const register = async (req, res, next) => {
     const { email, password, firstName, lastName } = req.body;
     try {
@@ -28,11 +20,8 @@ const register = async (req, res, next) => {
         inputController_1.default.isValidName(lastName, 'Last name');
         // create a new user
         const user = await userServices_1.default.newUser(email, password, firstName, lastName);
-        // create token
-        const token = jwtServices_1.default.createToken(user.userId, MaxAge.OneWeek);
-        // attach cookie to res object
-        res.cookie('jwt', token, { httpOnly: true, maxAge: MaxAge.OneWeekMiliSec });
-        res.status(200).json({ userId: user.userId });
+        // create and send token
+        jwtServices_1.default.sendJwtResponse(user, res);
     }
     catch (err) {
         return next(err);
@@ -41,19 +30,12 @@ const register = async (req, res, next) => {
 const login = async (req, res, next) => {
     const { email, password } = req.body;
     try {
-        // basic input check
-        inputController_1.default.isValidEmail(email);
-        inputController_1.default.isValidPassword(password);
         const user = await userServices_1.default.findUserbyEmail(email);
         if (user) {
-            const auth = await bcryptjs_1.default.compare(password, user.password);
-            if (auth) {
-                const token = jwtServices_1.default.createToken(user.userId, MaxAge.OneWeek);
-                res.cookie('jwt', token, {
-                    httpOnly: true,
-                    maxAge: MaxAge.OneWeekMiliSec,
-                });
-                res.status(200).json({ userId: user.userId });
+            const authenticated = await bcryptServices_1.default.checkPassword(password, user);
+            if (authenticated) {
+                // create and send token
+                jwtServices_1.default.sendJwtResponse(user, res);
             }
             else {
                 throw new appErrorServices_1.default(process.env.NODE_ENV === 'production'

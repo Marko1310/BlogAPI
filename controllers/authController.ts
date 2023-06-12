@@ -1,6 +1,3 @@
-// Dependencies
-import bcrypt from 'bcryptjs';
-
 // Express Router
 import { Request, Response, NextFunction } from 'express';
 
@@ -14,17 +11,11 @@ import inputValidateController from './inputController';
 import userServices from '../services/userServices';
 import jwtServices from '../services/jwtServices';
 import AppError from '../services/appErrorServices';
+import bcryptServices from '../services/bcryptServices';
 
 interface LoginRequestBody {
   email: string;
   password: string;
-}
-
-enum MaxAge {
-  OneDay = 24 * 60 * 60, // 1 day in seconds
-  OneWeek = 7 * OneDay, // 1 week in seconds
-  OneDayMiliSec = 1000 * 24 * 60 * 60, // 1 day in miliseconds
-  OneWeekMiliSec = 1000 * 7 * OneDay, // 1 week in miliseconds
 }
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
@@ -44,11 +35,8 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
       firstName,
       lastName
     );
-    // create token
-    const token = jwtServices.createToken(user.userId, MaxAge.OneWeek);
-    // attach cookie to res object
-    res.cookie('jwt', token, { httpOnly: true, maxAge: MaxAge.OneWeekMiliSec });
-    res.status(200).json({ userId: user.userId });
+    // create and send token
+    jwtServices.sendJwtResponse(user, res);
   } catch (err) {
     return next(err);
   }
@@ -57,21 +45,13 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 const login = async (req: Request, res: Response, next: NextFunction) => {
   const { email, password }: LoginRequestBody = req.body;
   try {
-    // basic input check
-    inputValidateController.isValidEmail(email);
-    inputValidateController.isValidPassword(password);
-
     const user = await userServices.findUserbyEmail(email);
 
     if (user) {
-      const auth = await bcrypt.compare(password, user.password);
-      if (auth) {
-        const token = jwtServices.createToken(user.userId, MaxAge.OneWeek);
-        res.cookie('jwt', token, {
-          httpOnly: true,
-          maxAge: MaxAge.OneWeekMiliSec,
-        });
-        res.status(200).json({ userId: user.userId });
+      const authenticated = await bcryptServices.checkPassword(password, user);
+      if (authenticated) {
+        // create and send token
+        jwtServices.sendJwtResponse(user, res);
       } else {
         throw new AppError(
           process.env.NODE_ENV === 'production'
