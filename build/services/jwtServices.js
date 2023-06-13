@@ -18,7 +18,7 @@ const sendJwtResponse = (user, res) => {
         expiresIn: MaxAge.OneWeek,
     });
     res.cookie('jwt', token, { httpOnly: true, maxAge: MaxAge.OneWeekMiliSec });
-    res.status(200).json({ userId: user.userId });
+    res.status(200).json({ userId: user.userId, token: token });
 };
 const verifyJwtToken = (token) => {
     return jsonwebtoken_1.default.verify(token, jwtSecret);

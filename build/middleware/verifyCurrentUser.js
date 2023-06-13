@@ -53,4 +53,30 @@ const login = async (req, res, next) => {
         return next(err);
     }
 };
-exports.default = { register, login };
+const protect = async (req, res, next) => {
+    try {
+        // 1. Getting the token and check if it's there
+        let token;
+        if (req.headers.authorization &&
+            req.headers.authorization.startsWith('Bearer')) {
+            token = req.headers.authorization.split(' ')[1];
+        }
+        if (!token) {
+            throw new appErrorServices_1.default('You are not logged in! Please log in to get access.', 401);
+        }
+        // 2. Verification token
+        const decodedToken = jwtServices_1.default.verifyJwtToken(token);
+        // 3. Check if user still exists
+        const currentUser = await userServices_1.default.findUser(decodedToken.userId);
+        if (!currentUser) {
+            throw new appErrorServices_1.default('The user belonging to the token no longer exist.', 401);
+        }
+        // Grant access
+        req.user = currentUser;
+        next();
+    }
+    catch (err) {
+        next(err);
+    }
+};
+exports.default = { register, login, protect };
