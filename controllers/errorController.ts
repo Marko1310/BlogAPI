@@ -1,6 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import AppError from '../services/appErrorServices';
 import Sequelize, { ValidationError, UniqueConstraintError } from 'sequelize';
+import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
+
+// types of error
+type SequelizeError = ValidationError | UniqueConstraintError;
+type JwtError = JsonWebTokenError | TokenExpiredError;
 
 const globallErrorHandler = (
   err: any,
@@ -11,11 +16,17 @@ const globallErrorHandler = (
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 
-  const handleSequelizeErrors = (
-    err: ValidationError | UniqueConstraintError
-  ) => {
+  const handleSequelizeErrors = (err: SequelizeError) => {
     const errMessage = err.errors[0].message;
     return new AppError(errMessage, 400);
+  };
+
+  const handleJWTError = () => {
+    return new AppError('Invalid token. Please log in again.', 401);
+  };
+
+  const handleJWTExpiredError = () => {
+    return new AppError('Token expired. Please log in again.', 401);
   };
 
   const sendErrorDev = (err: AppError, res: Response) => {
@@ -58,7 +69,14 @@ const globallErrorHandler = (
       const seqError = handleSequelizeErrors(err);
       sendErrorProd(seqError, res);
     }
-
+    if (err.name === 'JsonWebTokenError') {
+      const jwtError = handleJWTError();
+      sendErrorProd(jwtError, res);
+    }
+    if (err.name === 'TokenExpiredError') {
+      const jwtExpiredError = handleJWTExpiredError();
+      sendErrorProd(jwtExpiredError, res);
+    }
     sendErrorProd(err, res);
   }
 };

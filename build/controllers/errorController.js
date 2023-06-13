@@ -12,6 +12,12 @@ const globallErrorHandler = (err, req, res, next) => {
         const errMessage = err.errors[0].message;
         return new appErrorServices_1.default(errMessage, 400);
     };
+    const handleJWTError = () => {
+        return new appErrorServices_1.default('Invalid token. Please log in again.', 401);
+    };
+    const handleJWTExpiredError = () => {
+        return new appErrorServices_1.default('Token expired. Please log in again.', 401);
+    };
     const sendErrorDev = (err, res) => {
         if (err instanceof sequelize_1.default.ValidationError) {
             res.status(err.statusCode).json({
@@ -50,6 +56,14 @@ const globallErrorHandler = (err, req, res, next) => {
             err instanceof sequelize_1.default.UniqueConstraintError) {
             const seqError = handleSequelizeErrors(err);
             sendErrorProd(seqError, res);
+        }
+        if (err.name === 'JsonWebTokenError') {
+            const jwtError = handleJWTError();
+            sendErrorProd(jwtError, res);
+        }
+        if (err.name === 'TokenExpiredError') {
+            const jwtExpiredError = handleJWTExpiredError();
+            sendErrorProd(jwtExpiredError, res);
         }
         sendErrorProd(err, res);
     }

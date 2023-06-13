@@ -74,34 +74,33 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const protect = async (req: Request, res: Response, next: NextFunction) => {
-  // 1. Getting the token and check if it's there
-  let token;
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
-    token = req.headers.authorization.split(' ')[1];
+  try {
+    // 1. Getting the token and check if it's there
+    let token;
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith('Bearer')
+    ) {
+      token = req.headers.authorization.split(' ')[1];
+    }
+
+    if (!token) {
+      throw new AppError(
+        'You are not logged in! Please log in to get access.',
+        401
+      );
+    }
+
+    // 2. Verification token
+    const decodedToken = jwtServices.verifyJwtToken(token);
+    console.log(decodedToken);
+
+    // 3. Check if user still exists
+
+    // 4. Check if user changed password after the token was issued
+  } catch (err) {
+    next(err);
   }
-
-  if (!token) {
-    return next(
-      new AppError('You are not logged in! Please log in to get access.', 401)
-    );
-  }
-
-  // 2. Verification token
-  const decodedToken = jwtServices.verifyJwtToken(token);
-  // if (!decodedToken) {
-  //   return next(
-  //     new AppError('You are not logged in! Please log in to get access.', 401)
-  //   );
-  // }
-
-  // 3. Check if user still exists
-
-  // 4. Check if user changed password after the token was issued
-
-  next();
 };
 
 export default { register, login, protect };
