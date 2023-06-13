@@ -7,12 +7,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const router = (0, express_1.Router)();
 // controller
-const blogController_1 = __importDefault(require("../controllers/blogController"));
+const retrieveDataController_1 = __importDefault(require("../controllers/retrieveDataController"));
 // middleware
 const authMiddleware_1 = __importDefault(require("../middleware/authMiddleware"));
-// routes
-// @route   POST /api/auth/post
-// @desc    Create a new blog
+// Routes
+// @route   GET /api/auth/users
+// @desc    Get all users
 // @access  Private
-router.post('/auth/post', authMiddleware_1.default.requireAuth, blogController_1.default.postBlog);
+router.get('/auth/users', authMiddleware_1.default.requireAuth, retrieveDataController_1.default.getAllUsers);
 exports.default = router;

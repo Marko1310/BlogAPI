@@ -6,12 +6,16 @@ const router = Router();
 // controller
 import authController from '../controllers/authController';
 
-// middleware
-import authMiddleware from '../middleware/authMiddleware';
+// Routes
 
-// routes
+// @route   POST /api/auth/register
+// @desc    Create a new user
+// @access  Public
 router.post('/auth/register', authController.register);
+
+// @route   POST /api/auth/login
+// @desc    User log in
+// @access  Public
 router.post('/auth/login', authController.login);
-// router.post('/auth/test', authMiddleware.requireAuth, authController.login);
 
 export default router;

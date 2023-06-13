@@ -11,6 +11,7 @@ import cookieParser from 'cookie-parser';
 import testRoute from './routes/testRoute';
 import authRoute from './routes/authRoute';
 import blogRoute from './routes/blogRoute';
+import dataRoute from './routes/dataRoute';
 import notFoundRoute from './routes/notFoundRoute';
 
 // Controllers
@@ -28,6 +29,7 @@ app.use(cookieParser());
 app.use('/api', testRoute);
 app.use('/api', authRoute);
 app.use('/api/', blogRoute);
+app.use('/api/', dataRoute);
 app.use('*', notFoundRoute);
 app.use(globallErrorHandler);
 

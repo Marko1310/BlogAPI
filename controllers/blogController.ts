@@ -33,7 +33,7 @@ const postBlog = async (
       userId,
       email
     );
-    res.json(newBlog);
+    res.status(200).json(newBlog);
   } catch (err) {
     return next(err);
   }

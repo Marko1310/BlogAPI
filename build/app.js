@@ -14,6 +14,7 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const testRoute_1 = __importDefault(require("./routes/testRoute"));
 const authRoute_1 = __importDefault(require("./routes/authRoute"));
 const blogRoute_1 = __importDefault(require("./routes/blogRoute"));
+const dataRoute_1 = __importDefault(require("./routes/dataRoute"));
 const notFoundRoute_1 = __importDefault(require("./routes/notFoundRoute"));
 // Controllers
 const errorController_1 = __importDefault(require("./controllers/errorController"));
@@ -27,6 +28,7 @@ app.use((0, cookie_parser_1.default)());
 app.use('/api', testRoute_1.default);
 app.use('/api', authRoute_1.default);
 app.use('/api/', blogRoute_1.default);
+app.use('/api/', dataRoute_1.default);
 app.use('*', notFoundRoute_1.default);
 app.use(errorController_1.default);
 exports.default = app;
