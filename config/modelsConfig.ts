@@ -1,5 +1,5 @@
 import { User } from '../models/user';
-import Blog from '../models/blog';
+import { Blog } from '../models/blog';
 import sequelize from './databaseConnection';
 
 // Global Error handler

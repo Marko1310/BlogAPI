@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const router = (0, express_1.Router)();
 // controller
-const authController_1 = __importDefault(require("../controllers/authController"));
+const blogController_1 = __importDefault(require("../controllers/blogController"));
+// middleware
+const authMiddleware_1 = __importDefault(require("../middleware/authMiddleware"));
 // routes
-router.post('/auth/register', authController_1.default.register);
-router.post('/auth/login', authController_1.default.login);
-// router.post('/auth/test', authMiddleware.requireAuth, authController.login);
+router.post('/auth/post', authMiddleware_1.default.requireAuth, blogController_1.default.postBlog);
 exports.default = router;

@@ -1,6 +1,6 @@
 import sequelize from '../config/databaseConnection';
 import { User } from './user'; // Import the User model
-import { Model, DataTypes } from 'sequelize';
+import { Model, DataTypes, Optional } from 'sequelize';
 
 interface BlogAttributes {
   blogId: number;
@@ -11,7 +11,17 @@ interface BlogAttributes {
   userId: number;
 }
 
-class Blog extends Model<BlogAttributes> implements BlogAttributes {
+interface BlogInput
+  extends Optional<BlogAttributes, 'blogId' | 'userId' | 'allowed'> {
+  title: string;
+  content: string;
+  userId: number;
+  author: string;
+}
+
+type BlogOutput = BlogAttributes;
+
+class Blog extends Model<BlogAttributes, BlogInput> implements BlogAttributes {
   declare blogId: number;
   declare title: string;
   declare content: string;
@@ -33,7 +43,7 @@ Blog.init(
       allowNull: false,
     },
     content: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     author: {
@@ -41,9 +51,15 @@ Blog.init(
       allowNull: false,
     },
     allowed: {
-      type: DataTypes.BOOLEAN,
+      type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: false,
+      defaultValue: 'notAllowed',
+      validate: {
+        isIn: {
+          args: [['notAllowed', 'allowed']],
+          msg: 'Invalid allowed value',
+        },
+      },
     },
     userId: {
       type: DataTypes.INTEGER,
@@ -61,4 +77,4 @@ Blog.belongsTo(User, {
   foreignKey: 'userId',
 });
 
-export default Blog;
+export { Blog, BlogInput, BlogOutput };

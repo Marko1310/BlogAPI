@@ -12,6 +12,6 @@ import authMiddleware from '../middleware/authMiddleware';
 // routes
 router.post('/auth/register', authController.register);
 router.post('/auth/login', authController.login);
-router.post('/auth/test', authMiddleware.requireAuth, authController.login);
+// router.post('/auth/test', authMiddleware.requireAuth, authController.login);
 
 export default router;
