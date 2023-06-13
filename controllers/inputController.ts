@@ -23,4 +23,22 @@ const isValidName = (name: string, fieldName: string) => {
   }
 };
 
-export default { isValidEmail, isValidPassword, isValidName };
+const isValidBlogTitle = (title: string) => {
+  if (title.length === 0) {
+    throw new AppError(`Title cannot be empty`, 400);
+  }
+};
+
+const isValidBlogContent = (content: string) => {
+  if (content.length === 0) {
+    throw new AppError(`Content cannot be empty`, 400);
+  }
+};
+
+export default {
+  isValidEmail,
+  isValidPassword,
+  isValidName,
+  isValidBlogTitle,
+  isValidBlogContent,
+};

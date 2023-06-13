@@ -23,4 +23,20 @@ const isValidName = (name, fieldName) => {
         throw new appErrorServices_1.default(`${fieldName} cannot be empty`, 400);
     }
 };
-exports.default = { isValidEmail, isValidPassword, isValidName };
+const isValidBlogTitle = (title) => {
+    if (title.length === 0) {
+        throw new appErrorServices_1.default(`Title cannot be empty`, 400);
+    }
+};
+const isValidBlogContent = (content) => {
+    if (content.length === 0) {
+        throw new appErrorServices_1.default(`Content cannot be empty`, 400);
+    }
+};
+exports.default = {
+    isValidEmail,
+    isValidPassword,
+    isValidName,
+    isValidBlogTitle,
+    isValidBlogContent,
+};

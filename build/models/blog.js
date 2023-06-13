@@ -30,15 +30,9 @@ Blog.init({
         allowNull: false,
     },
     allowed: {
-        type: sequelize_1.DataTypes.STRING,
+        type: sequelize_1.DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: 'notAllowed',
-        validate: {
-            isIn: {
-                args: [['notAllowed', 'allowed']],
-                msg: 'Invalid allowed value',
-            },
-        },
+        defaultValue: false,
     },
     userId: {
         type: sequelize_1.DataTypes.INTEGER,

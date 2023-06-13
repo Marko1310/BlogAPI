@@ -51,15 +51,9 @@ Blog.init(
       allowNull: false,
     },
     allowed: {
-      type: DataTypes.STRING,
+      type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: 'notAllowed',
-      validate: {
-        isIn: {
-          args: [['notAllowed', 'allowed']],
-          msg: 'Invalid allowed value',
-        },
-      },
+      defaultValue: false,
     },
     userId: {
       type: DataTypes.INTEGER,

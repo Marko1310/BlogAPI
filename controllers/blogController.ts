@@ -4,6 +4,9 @@ import { Request, Response, NextFunction } from 'express';
 // User model
 import { User } from '../models/user';
 
+// Controllers
+import inputValidateController from './inputController';
+
 // services
 import AppError from '../services/appErrorServices';
 import blogServices from '../services/blogServices';
@@ -21,9 +24,8 @@ const postBlog = async (
   const { title, content } = req.body;
 
   try {
-    // Basic checks for title, content length
-    //
-    ///////
+    inputValidateController.isValidBlogTitle(title);
+    inputValidateController.isValidBlogContent(content);
 
     const newBlog = await blogServices.createNewBlog(
       title,
