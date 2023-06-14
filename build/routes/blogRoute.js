@@ -16,4 +16,9 @@ const authMiddleware_1 = __importDefault(require("../middleware/authMiddleware")
 // @access  Private
 // @role    Admin, Blogger, User
 router.post('/auth/post', authMiddleware_1.default.requireAuth, blogController_1.default.postBlog);
+// @route   POST /api/auth/post-request
+// @desc    Admin allow/decline the post
+// @access  Private
+// @role    Admin
+router.post('/auth/post-request', authMiddleware_1.default.requireAuth, authMiddleware_1.default.restrictTo('admin'), blogController_1.default.allowDeclinePost);
 exports.default = router;

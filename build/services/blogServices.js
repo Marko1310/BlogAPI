@@ -12,4 +12,9 @@ const createNewBlog = (title, content, userId, email) => {
     const blog = blog_1.Blog.create(blogInput);
     return blog;
 };
-exports.default = { createNewBlog };
+const allowDeclinePost = (blogId, action) => {
+    return true;
+};
+const findBlogbyID = (blogId) => blog_1.Blog.findOne({ where: { blogId } });
+const allowBlog = (blogId) => blog_1.Blog.update({ allowed: true }, { where: { blogId } });
+exports.default = { createNewBlog, allowDeclinePost, findBlogbyID, allowBlog };

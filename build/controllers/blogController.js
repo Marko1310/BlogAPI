@@ -20,4 +20,23 @@ const postBlog = async (req, res, next) => {
         return next(err);
     }
 };
-exports.default = { postBlog };
+const allowDeclinePost = async (req, res, next) => {
+    const { blogId, action } = req.body;
+    try {
+        // const requestedPost = await blogServices.allowDeclinePost(blogId, action);
+        // retrieve blog and associated user
+        const blog = await blogServices_1.default.findBlogbyID(blogId);
+        let user = null;
+        if (blog) {
+            user = await blog.getUser();
+        }
+        if (action === 'allow') {
+            await blogServices_1.default.allowBlog(blogId);
+        }
+        res.status(200).json({ blogId, action });
+    }
+    catch (err) {
+        return next(err);
+    }
+};
+exports.default = { postBlog, allowDeclinePost };

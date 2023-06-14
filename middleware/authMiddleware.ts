@@ -42,7 +42,7 @@ const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
     ) as DecodedToken;
 
     // 3. Check if user still exists
-    const currentUser = await userServices.findUser(decodedToken.userId);
+    const currentUser = await userServices.findUserbyID(decodedToken.userId);
     if (!currentUser) {
       throw new AppError(
         'The user belonging to the token no longer exist.',

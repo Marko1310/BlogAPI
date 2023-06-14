@@ -21,7 +21,7 @@ const requireAuth = async (req, res, next) => {
         // 2. Verification token
         const decodedToken = jwtServices_1.default.verifyJwtToken(token);
         // 3. Check if user still exists
-        const currentUser = await userServices_1.default.findUser(decodedToken.userId);
+        const currentUser = await userServices_1.default.findUserbyID(decodedToken.userId);
         if (!currentUser) {
             throw new appErrorServices_1.default('The user belonging to the token no longer exist.', 401);
         }

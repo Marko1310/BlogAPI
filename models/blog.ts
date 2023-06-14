@@ -1,6 +1,11 @@
 import sequelize from '../config/databaseConnection';
 import { User } from './user'; // Import the User model
-import { Model, DataTypes, Optional } from 'sequelize';
+import {
+  Model,
+  DataTypes,
+  Optional,
+  BelongsToGetAssociationMixin,
+} from 'sequelize';
 
 interface BlogAttributes {
   blogId: number;
@@ -28,6 +33,7 @@ class Blog extends Model<BlogAttributes, BlogInput> implements BlogAttributes {
   declare author: string;
   declare allowed: boolean;
   declare userId: number;
+  declare getUser: BelongsToGetAssociationMixin<User>;
 }
 
 Blog.init(

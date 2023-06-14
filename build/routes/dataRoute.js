@@ -17,7 +17,7 @@ const authMiddleware_1 = __importDefault(require("../middleware/authMiddleware")
 // @role    Admin, Blogger, User
 router.get('/auth/users', authMiddleware_1.default.requireAuth, retrieveDataController_1.default.getAllUsers);
 // @route   GET /api/auth/post-request
-// @desc    Get requested post
+// @desc    Get requested posts (not allowed posts)
 // @access  Private
 // @role    Admin
 router.get('/auth/post-request', authMiddleware_1.default.requireAuth, authMiddleware_1.default.restrictTo('admin'), retrieveDataController_1.default.getRequestedPosts);

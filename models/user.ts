@@ -1,6 +1,7 @@
 import { Model, DataTypes, Optional } from 'sequelize';
 import sequelize from '../config/databaseConnection';
 import bcrypt from 'bcryptjs';
+import { Blog } from './blog';
 
 interface UserAttributes {
   role: string;

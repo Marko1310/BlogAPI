@@ -15,6 +15,6 @@ const newUser = (email, password, firstName, lastName, role) => {
     return user;
 };
 // Find users
-const findUser = (userId) => user_1.User.findOne({ where: { userId } });
+const findUserbyID = (userId) => user_1.User.findOne({ where: { userId } });
 const findUserbyEmail = (email) => user_1.User.findOne({ where: { email } });
-exports.default = { newUser, findUser, findUserbyEmail };
+exports.default = { newUser, findUserbyID, findUserbyEmail };

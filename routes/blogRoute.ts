@@ -17,4 +17,15 @@ import authMiddleware from '../middleware/authMiddleware';
 // @role    Admin, Blogger, User
 router.post('/auth/post', authMiddleware.requireAuth, blogController.postBlog);
 
+// @route   POST /api/auth/post-request
+// @desc    Admin allow/decline the post
+// @access  Private
+// @role    Admin
+router.post(
+  '/auth/post-request',
+  authMiddleware.requireAuth,
+  authMiddleware.restrictTo('admin'),
+  blogController.allowDeclinePost
+);
+
 export default router;

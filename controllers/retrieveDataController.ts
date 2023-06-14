@@ -1,6 +1,9 @@
 // Express Router
 import { Request, Response, NextFunction } from 'express';
 
+// Models
+import { BlogOutput } from '../models/blog';
+
 // services
 import retrieveDataServices from '../services/retrieveDataServices';
 
@@ -25,7 +28,8 @@ const getRequestedPosts = async (
   next: NextFunction
 ) => {
   try {
-    const requestedPosts = await retrieveDataServices.getRequestedPosts();
+    const requestedPosts: BlogOutput[] =
+      await retrieveDataServices.getRequestedPosts();
     res.status(200).json(requestedPosts);
   } catch (err) {
     return next(err);

@@ -22,7 +22,7 @@ router.get(
 );
 
 // @route   GET /api/auth/post-request
-// @desc    Get requested post
+// @desc    Get requested posts (not allowed posts)
 // @access  Private
 // @role    Admin
 router.get(

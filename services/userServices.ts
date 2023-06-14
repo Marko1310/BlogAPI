@@ -21,8 +21,8 @@ const newUser = (
 };
 
 // Find users
-const findUser = (userId: number) => User.findOne({ where: { userId } });
+const findUserbyID = (userId: number) => User.findOne({ where: { userId } });
 
 const findUserbyEmail = (email: string) => User.findOne({ where: { email } });
 
-export default { newUser, findUser, findUserbyEmail };
+export default { newUser, findUserbyID, findUserbyEmail };
