@@ -3,7 +3,7 @@ import sequelize from '../config/databaseConnection';
 import bcrypt from 'bcryptjs';
 
 interface UserAttributes {
-  permission: string;
+  role: string;
   userId: number;
   firstName: string;
   lastName: string;
@@ -11,7 +11,7 @@ interface UserAttributes {
   password: string;
 }
 
-interface UserInput extends Optional<UserAttributes, 'userId' | 'permission'> {
+interface UserInput extends Optional<UserAttributes, 'userId' | 'role'> {
   firstName: string;
   lastName: string;
   email: string;
@@ -21,7 +21,7 @@ interface UserInput extends Optional<UserAttributes, 'userId' | 'permission'> {
 type UserOutput = UserAttributes;
 
 class User extends Model<UserAttributes, UserInput> implements UserAttributes {
-  declare permission: string;
+  declare role: string;
   declare userId: number;
   declare firstName: string;
   declare lastName: string;
@@ -76,7 +76,7 @@ User.init(
         notEmpty: { msg: 'Last name cannot be empty' },
       },
     },
-    permission: {
+    role: {
       type: DataTypes.STRING,
       defaultValue: 'user',
       allowNull: false,

@@ -56,7 +56,7 @@ User.init({
             notEmpty: { msg: 'Last name cannot be empty' },
         },
     },
-    permission: {
+    role: {
         type: sequelize_1.DataTypes.STRING,
         defaultValue: 'user',
         allowNull: false,

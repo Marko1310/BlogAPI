@@ -1,6 +1,9 @@
 // Express Router
 import { Request, Response, NextFunction } from 'express';
 
+// User model
+import { User } from '../models/user';
+
 // services
 import userServices from '../services/userServices';
 import jwtServices from '../services/jwtServices';
@@ -12,6 +15,9 @@ type DecodedToken = {
   exp: number;
 };
 
+interface customRequest extends Request {
+  user: User;
+}
 const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
   try {
     // 1. Getting the token and check if it's there
@@ -44,11 +50,23 @@ const requireAuth = async (req: Request, res: Response, next: NextFunction) => {
       );
     }
     // Grant access
-    (req as any).user = currentUser;
+    (req as customRequest).user = currentUser;
     next();
   } catch (err) {
     next(err);
   }
 };
 
-export default { requireAuth };
+const restrictTo = (...roles: string[]) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    if (!roles.includes((req as customRequest).user.role)) {
+      return next(
+        new AppError(`You don't have permission to perform this action`, 403)
+      );
+    }
+
+    next();
+  };
+};
+
+export default { requireAuth, restrictTo };

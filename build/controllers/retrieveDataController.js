@@ -1,12 +1,13 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-// User model
-const user_1 = require("../models/user");
+// services
+const retrieveDataServices_1 = __importDefault(require("../services/retrieveDataServices"));
 const getAllUsers = async (req, res, next) => {
     try {
-        const users = await user_1.User.findAll({
-            attributes: ['firstName', 'lastName'],
-        });
+        const users = await retrieveDataServices_1.default.getAllUsers();
         res.status(200).json(users);
     }
     catch (err) {
