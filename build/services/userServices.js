@@ -17,4 +17,6 @@ const newUser = (email, password, firstName, lastName, role) => {
 // Find users
 const findUserbyID = (userId) => user_1.User.findOne({ where: { userId } });
 const findUserbyEmail = (email) => user_1.User.findOne({ where: { email } });
-exports.default = { newUser, findUserbyID, findUserbyEmail };
+// Change user role
+const changeUserRole = (userId, newRole) => user_1.User.update({ role: newRole }, { where: { userId } });
+exports.default = { newUser, findUserbyID, findUserbyEmail, changeUserRole };

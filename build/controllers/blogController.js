@@ -7,6 +7,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const inputController_1 = __importDefault(require("./inputController"));
 // services
 const blogServices_1 = __importDefault(require("../services/blogServices"));
+const userServices_1 = __importDefault(require("../services/userServices"));
 const postBlog = async (req, res, next) => {
     const { userId, email } = req.user;
     const { title, content } = req.body;
@@ -30,8 +31,12 @@ const allowDeclinePost = async (req, res, next) => {
         if (blog) {
             user = await blog.getUser();
         }
-        if (action === 'allow') {
+        if (action === 'allow' && user) {
             await blogServices_1.default.allowBlog(blogId);
+            await userServices_1.default.changeUserRole(user.userId, 'blogger');
+        }
+        if (action === 'decline') {
+            await blogServices_1.default.declineBlog(blogId);
         }
         res.status(200).json({ blogId, action });
     }

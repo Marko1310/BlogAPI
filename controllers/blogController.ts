@@ -2,8 +2,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 // Models
-import { User, UserOutput } from '../models/user';
-import { Blog } from '../models/blog';
+import { User } from '../models/user';
 
 // Controllers
 import inputValidateController from './inputController';
@@ -15,6 +14,14 @@ import userServices from '../services/userServices';
 interface customRequest extends Request {
   user: User;
 }
+interface AllowDeclineRequestBody {
+  blogId: number;
+  action: 'allow' | 'decline';
+}
+interface PostBlogRequestBody {
+  title: string;
+  content: string;
+}
 
 const postBlog = async (
   req: customRequest,
@@ -22,7 +29,7 @@ const postBlog = async (
   next: NextFunction
 ) => {
   const { userId, email } = req.user;
-  const { title, content } = req.body;
+  const { title, content }: PostBlogRequestBody = req.body;
 
   try {
     inputValidateController.isValidBlogTitle(title);
@@ -45,7 +52,7 @@ const allowDeclinePost = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { blogId, action } = req.body;
+  const { blogId, action }: AllowDeclineRequestBody = req.body;
 
   try {
     // const requestedPost = await blogServices.allowDeclinePost(blogId, action);
@@ -56,8 +63,13 @@ const allowDeclinePost = async (
       user = await blog.getUser();
     }
 
-    if (action === 'allow') {
+    if (action === 'allow' && user) {
       await blogServices.allowBlog(blogId);
+      await userServices.changeUserRole(user.userId, 'blogger');
+    }
+
+    if (action === 'decline') {
+      await blogServices.declineBlog(blogId);
     }
 
     res.status(200).json({ blogId, action });

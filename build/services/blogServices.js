@@ -17,4 +17,11 @@ const allowDeclinePost = (blogId, action) => {
 };
 const findBlogbyID = (blogId) => blog_1.Blog.findOne({ where: { blogId } });
 const allowBlog = (blogId) => blog_1.Blog.update({ allowed: true }, { where: { blogId } });
-exports.default = { createNewBlog, allowDeclinePost, findBlogbyID, allowBlog };
+const declineBlog = (blogId) => blog_1.Blog.update({ allowed: false }, { where: { blogId } });
+exports.default = {
+    createNewBlog,
+    allowDeclinePost,
+    findBlogbyID,
+    allowBlog,
+    declineBlog,
+};

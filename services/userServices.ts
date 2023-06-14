@@ -1,6 +1,8 @@
 // User model
 import { User, UserOutput, UserInput } from '../models/user';
 
+type UserRole = 'admin' | 'blogger' | 'user';
+
 // Create user
 const newUser = (
   email: string,
@@ -22,7 +24,10 @@ const newUser = (
 
 // Find users
 const findUserbyID = (userId: number) => User.findOne({ where: { userId } });
-
 const findUserbyEmail = (email: string) => User.findOne({ where: { email } });
 
-export default { newUser, findUserbyID, findUserbyEmail };
+// Change user role
+const changeUserRole = (userId: number, newRole: UserRole) =>
+  User.update({ role: newRole }, { where: { userId } });
+
+export default { newUser, findUserbyID, findUserbyEmail, changeUserRole };
