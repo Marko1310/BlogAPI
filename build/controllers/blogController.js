@@ -25,7 +25,7 @@ const allowDeclinePost = async (req, res, next) => {
     const { blogId, action } = req.body;
     try {
         // retrieve blog and associated user
-        const blog = await blogServices_1.default.findBlogbyID(blogId);
+        const blog = await blogServices_1.default.findBlogByBlogID(blogId);
         let user = null;
         if (blog) {
             user = await blog.getUser();

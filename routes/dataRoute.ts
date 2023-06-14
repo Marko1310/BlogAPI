@@ -8,6 +8,7 @@ import retrieveDataController from '../controllers/retrieveDataController';
 
 // middleware
 import authMiddleware from '../middleware/authMiddleware';
+import publicMiddleware from '../middleware/publicMiddleware';
 
 // Routes
 
@@ -36,6 +37,13 @@ router.get(
 // @desc    Get posts depending on roles
 // @access  Public/Private
 // @role    Admin/Blogger/User/Unauthenticated
-router.get('/auth/posts', retrieveDataController.getPosts);
+
+router.get(
+  '/auth/posts',
+  publicMiddleware.allowPublicAccess,
+  authMiddleware.requireAuth,
+  authMiddleware.restrictTo('admin', 'blogger'),
+  retrieveDataController.getPosts
+);
 
 export default router;

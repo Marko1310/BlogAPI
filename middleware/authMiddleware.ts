@@ -64,7 +64,6 @@ const restrictTo = (...roles: string[]) => {
         new AppError(`You don't have permission to perform this action`, 403)
       );
     }
-
     next();
   };
 };

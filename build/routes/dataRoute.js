@@ -10,6 +10,7 @@ const router = (0, express_1.Router)();
 const retrieveDataController_1 = __importDefault(require("../controllers/retrieveDataController"));
 // middleware
 const authMiddleware_1 = __importDefault(require("../middleware/authMiddleware"));
+const publicMiddleware_1 = __importDefault(require("../middleware/publicMiddleware"));
 // Routes
 // @route   GET /api/auth/users
 // @desc    Get all users
@@ -25,5 +26,5 @@ router.get('/auth/post-request', authMiddleware_1.default.requireAuth, authMiddl
 // @desc    Get posts depending on roles
 // @access  Public/Private
 // @role    Admin/Blogger/User/Unauthenticated
-router.get('/auth/posts', retrieveDataController_1.default.getPosts);
+router.get('/auth/posts', publicMiddleware_1.default.allowPublicAccess, authMiddleware_1.default.requireAuth, authMiddleware_1.default.restrictTo('admin', 'blogger'), retrieveDataController_1.default.getPosts);
 exports.default = router;

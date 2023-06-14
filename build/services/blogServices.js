@@ -12,12 +12,18 @@ const createNewBlog = (title, content, userId, email) => {
     const blog = blog_1.Blog.create(blogInput);
     return blog;
 };
-const findBlogbyID = (blogId) => blog_1.Blog.findOne({ where: { blogId } });
+const findAllBlogs = () => blog_1.Blog.findAll();
+const findPublicBlogs = () => blog_1.Blog.findAll({ where: { allowed: true } });
+const findBlogByBlogID = (blogId) => blog_1.Blog.findOne({ where: { blogId } });
+const findBlogByUserID = (userId) => blog_1.Blog.findAll({ where: { userId } });
 const allowBlog = (blogId) => blog_1.Blog.update({ allowed: true }, { where: { blogId } });
 const declineBlog = (blogId) => blog_1.Blog.update({ allowed: false }, { where: { blogId } });
 exports.default = {
     createNewBlog,
-    findBlogbyID,
+    findAllBlogs,
+    findPublicBlogs,
+    findBlogByBlogID,
+    findBlogByUserID,
     allowBlog,
     declineBlog,
 };
