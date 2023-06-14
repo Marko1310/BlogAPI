@@ -11,11 +11,12 @@ interface UserAttributes {
   password: string;
 }
 
-interface UserInput extends Optional<UserAttributes, 'userId' | 'role'> {
+interface UserInput extends Optional<UserAttributes, 'userId'> {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
+  role: string;
 }
 
 type UserOutput = UserAttributes;

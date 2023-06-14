@@ -2,7 +2,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 // User model
-import { User, UserOutput, UserInput } from '../models/user';
+import { UserOutput, UserInput } from '../models/user';
 
 // Controllers
 import inputValidateController from './inputController';
@@ -19,7 +19,7 @@ interface LoginRequestBody {
 }
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
-  const { email, password, firstName, lastName }: UserInput = req.body;
+  const { email, password, firstName, lastName, role }: UserInput = req.body;
 
   try {
     // basic input check
@@ -33,7 +33,8 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
       email,
       password,
       firstName,
-      lastName
+      lastName,
+      role
     );
     // create and send token
     jwtServices.sendJwtResponse(user, res);

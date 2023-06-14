@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // Controllers
 const inputController_1 = __importDefault(require("./inputController"));
+// services
 const blogServices_1 = __importDefault(require("../services/blogServices"));
 const postBlog = async (req, res, next) => {
     const { userId, email } = req.user;

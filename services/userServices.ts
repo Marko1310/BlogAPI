@@ -6,13 +6,15 @@ const newUser = (
   email: string,
   password: string,
   firstName: string,
-  lastName: string
+  lastName: string,
+  role?: string
 ): Promise<UserOutput> => {
   const userInput: UserInput = {
-    firstName,
-    lastName,
-    email,
-    password,
+    firstName: firstName,
+    lastName: lastName,
+    email: email,
+    password: password,
+    role: role || 'user',
   };
   const user = User.create(userInput);
   return user;

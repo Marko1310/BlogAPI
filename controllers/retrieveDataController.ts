@@ -19,4 +19,17 @@ const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export default { getAllUsers };
+const getRequestedPosts = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const requestedPosts = await retrieveDataServices.getRequestedPosts();
+    res.status(200).json(requestedPosts);
+  } catch (err) {
+    return next(err);
+  }
+};
+
+export default { getAllUsers, getRequestedPosts };

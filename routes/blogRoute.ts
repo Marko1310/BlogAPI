@@ -14,6 +14,7 @@ import authMiddleware from '../middleware/authMiddleware';
 // @route   POST /api/auth/post
 // @desc    Create a new blog
 // @access  Private
+// @role    Admin, Blogger, User
 router.post('/auth/post', authMiddleware.requireAuth, blogController.postBlog);
 
 export default router;

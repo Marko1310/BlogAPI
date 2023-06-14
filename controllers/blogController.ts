@@ -8,7 +8,6 @@ import { User } from '../models/user';
 import inputValidateController from './inputController';
 
 // services
-import AppError from '../services/appErrorServices';
 import blogServices from '../services/blogServices';
 
 interface customRequest extends Request {

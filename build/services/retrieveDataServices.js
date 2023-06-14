@@ -1,10 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-// User model
+// Models
 const user_1 = require("../models/user");
+const blog_1 = require("../models/blog");
 const getAllUsers = () => {
     return user_1.User.findAll({
         attributes: ['firstName', 'lastName'],
     });
 };
-exports.default = { getAllUsers };
+const getRequestedPosts = () => {
+    return blog_1.Blog.findAll({
+        where: {
+            allowed: false,
+        },
+    });
+};
+exports.default = { getAllUsers, getRequestedPosts };

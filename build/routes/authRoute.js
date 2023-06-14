@@ -12,9 +12,11 @@ const authController_1 = __importDefault(require("../controllers/authController"
 // @route   POST /api/auth/register
 // @desc    Create a new user
 // @access  Public
+// @role    /
 router.post('/auth/register', authController_1.default.register);
 // @route   POST /api/auth/login
 // @desc    User log in
 // @access  Public
+// @role    /
 router.post('/auth/login', authController_1.default.login);
 exports.default = router;

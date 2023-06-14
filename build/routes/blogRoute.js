@@ -14,5 +14,6 @@ const authMiddleware_1 = __importDefault(require("../middleware/authMiddleware")
 // @route   POST /api/auth/post
 // @desc    Create a new blog
 // @access  Private
+// @role    Admin, Blogger, User
 router.post('/auth/post', authMiddleware_1.default.requireAuth, blogController_1.default.postBlog);
 exports.default = router;
