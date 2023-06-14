@@ -17,9 +17,6 @@ const createNewBlog = (
   return blog;
 };
 
-const allowDeclinePost = (blogId: number, action: string) => {
-  return true;
-};
 const findBlogbyID = (blogId: number) => Blog.findOne({ where: { blogId } });
 
 const allowBlog = (blogId: number) =>
@@ -30,7 +27,6 @@ const declineBlog = (blogId: number) =>
 
 export default {
   createNewBlog,
-  allowDeclinePost,
   findBlogbyID,
   allowBlog,
   declineBlog,

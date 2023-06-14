@@ -32,4 +32,10 @@ router.get(
   retrieveDataController.getRequestedPosts
 );
 
+// @route   GET /api/auth/posts
+// @desc    Get posts depending on roles
+// @access  Public/Private
+// @role    Admin/Blogger/User/Unauthenticated
+router.get('/auth/posts', retrieveDataController.getPosts);
+
 export default router;

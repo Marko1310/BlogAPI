@@ -55,7 +55,6 @@ const allowDeclinePost = async (
   const { blogId, action }: AllowDeclineRequestBody = req.body;
 
   try {
-    // const requestedPost = await blogServices.allowDeclinePost(blogId, action);
     // retrieve blog and associated user
     const blog = await blogServices.findBlogbyID(blogId);
     let user = null;
@@ -63,16 +62,17 @@ const allowDeclinePost = async (
       user = await blog.getUser();
     }
 
+    // depending on the action
     if (action === 'allow' && user) {
       await blogServices.allowBlog(blogId);
       await userServices.changeUserRole(user.userId, 'blogger');
+      res.status(200).json(`Blog blogId ${blog?.blogId} is allowed`);
     }
 
     if (action === 'decline') {
       await blogServices.declineBlog(blogId);
+      res.status(200).json(`Blog blogId ${blog?.blogId} is declined`);
     }
-
-    res.status(200).json({ blogId, action });
   } catch (err) {
     return next(err);
   }
