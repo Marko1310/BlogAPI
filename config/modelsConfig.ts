@@ -5,6 +5,7 @@ import sequelize from './databaseConnection';
 // Global Error handler
 import AppError from '../services/appErrorServices';
 
+// Models connection
 User.hasMany(Blog, { foreignKey: 'userId' });
 Blog.belongsTo(User, { foreignKey: 'userId' });
 

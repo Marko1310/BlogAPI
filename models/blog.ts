@@ -1,5 +1,6 @@
 import sequelize from '../config/databaseConnection';
-import { User } from './user'; // Import the User model
+import { User } from './user';
+
 import {
   Model,
   DataTypes,
@@ -72,9 +73,5 @@ Blog.init(
     timestamps: true,
   }
 );
-
-Blog.belongsTo(User, {
-  foreignKey: 'userId',
-});
 
 export { Blog, BlogInput, BlogOutput };

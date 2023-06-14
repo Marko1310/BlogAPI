@@ -31,6 +31,8 @@ app.use('/api', authRoute);
 app.use('/api/', blogRoute);
 app.use('/api/', dataRoute);
 app.use('*', notFoundRoute);
+
+// Global error handler
 app.use(globallErrorHandler);
 
 export default app;
