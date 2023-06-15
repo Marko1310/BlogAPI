@@ -9,7 +9,7 @@ const databaseConnection_1 = __importDefault(require("./databaseConnection"));
 // Global Error handler
 const appErrorServices_1 = __importDefault(require("../services/appErrorServices"));
 // Models connection
-user_1.User.hasMany(blog_1.Blog, { foreignKey: 'userId' });
+user_1.User.hasMany(blog_1.Blog, { onDelete: 'CASCADE', foreignKey: 'userId' });
 blog_1.Blog.belongsTo(user_1.User, { foreignKey: 'userId' });
 const syncModels = async () => {
     try {

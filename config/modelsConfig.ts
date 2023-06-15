@@ -6,7 +6,7 @@ import sequelize from './databaseConnection';
 import AppError from '../services/appErrorServices';
 
 // Models connection
-User.hasMany(Blog, { foreignKey: 'userId' });
+User.hasMany(Blog, { onDelete: 'CASCADE', foreignKey: 'userId' });
 Blog.belongsTo(User, { foreignKey: 'userId' });
 
 const syncModels = async () => {
