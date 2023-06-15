@@ -2,12 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 // Blog model
 const blog_1 = require("../models/blog");
-const createNewBlog = (title, content, userId, email) => {
+const createNewBlog = (title, content, userId, email, allowed) => {
     const blogInput = {
         title: title,
         content: content,
         userId: userId,
         author: email,
+        allowed: allowed || false,
     };
     const blog = blog_1.Blog.create(blogInput);
     return blog;

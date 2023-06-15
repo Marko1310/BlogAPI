@@ -23,6 +23,7 @@ interface BlogInput
   content: string;
   userId: number;
   author: string;
+  allowed: boolean;
 }
 
 type BlogOutput = BlogAttributes;

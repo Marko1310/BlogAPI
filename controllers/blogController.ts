@@ -28,19 +28,26 @@ const postBlog = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { userId, email } = req.user;
+  const { userId, email, role } = req.user;
   const { title, content }: PostBlogRequestBody = req.body;
 
   try {
     inputValidateController.isValidBlogTitle(title);
     inputValidateController.isValidBlogContent(content);
 
-    const newBlog = await blogServices.createNewBlog(
-      title,
-      content,
-      userId,
-      email
-    );
+    let newBlog;
+    if (role === 'admin') {
+      newBlog = await blogServices.createNewBlog(
+        title,
+        content,
+        userId,
+        email,
+        true
+      );
+    } else {
+      newBlog = await blogServices.createNewBlog(title, content, userId, email);
+    }
+
     res.status(200).json(newBlog);
   } catch (err) {
     return next(err);
@@ -65,13 +72,15 @@ const allowDeclinePost = async (
     // depending on the action
     if (action === 'allow' && user) {
       await blogServices.allowBlog(blogId);
-      await userServices.changeUserRole(user.userId, 'blogger');
-      res.status(200).json(`Blog blogId ${blog?.blogId} is allowed`);
+      if (user.role !== 'admin') {
+        await userServices.changeUserRole(user.userId, 'blogger');
+      }
+      res.status(200).json(`Blog (blogId ${blog?.blogId}) is allowed`);
     }
 
     if (action === 'decline') {
       await blogServices.declineBlog(blogId);
-      res.status(200).json(`Blog blogId ${blog?.blogId} is declined`);
+      res.status(200).json(`Blog (blogId ${blog?.blogId}) is declined`);
     }
   } catch (err) {
     return next(err);
