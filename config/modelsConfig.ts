@@ -16,10 +16,7 @@ const syncModels = async () => {
     await Blog.sync({ alter: true });
   } catch (err) {
     console.log('Error synchronizing models:', err);
-    throw new AppError(
-      'Database synchronization failed. Server cannot start.',
-      500
-    );
+    throw new AppError('Database synchronization failed. Server cannot start.', 500);
   }
 };
 
