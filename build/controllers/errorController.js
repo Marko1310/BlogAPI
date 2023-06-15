@@ -27,24 +27,17 @@ const globallErrorHandler = (err, req, res, next) => {
             });
         }
         else {
-            res
-                .status(err.statusCode)
-                .json({ status: err.status, error: err, message: err.message });
+            res.status(err.statusCode).json({ status: err.status, error: err, message: err.message });
         }
     };
     const sendErrorProd = (err, res) => {
         // Operational error
         if (err.isOperational) {
-            res
-                .status(err.statusCode)
-                .json({ status: err.status, message: err.message });
+            res.status(err.statusCode).json({ status: err.status, message: err.message });
         }
         else {
             // Programming error
-            console.error('Error', err);
-            res
-                .status(500)
-                .json({ status: 'error', message: 'Something went wrong' });
+            res.status(500).json({ status: 'error', message: 'Something went wrong' });
         }
     };
     if (process.env.NODE_ENV === 'development') {
@@ -52,18 +45,19 @@ const globallErrorHandler = (err, req, res, next) => {
     }
     else if (process.env.NODE_ENV === 'production') {
         // Sequelize error
-        if (err instanceof sequelize_1.default.ValidationError ||
-            err instanceof sequelize_1.default.UniqueConstraintError) {
+        if (err instanceof sequelize_1.default.ValidationError || err instanceof sequelize_1.default.UniqueConstraintError) {
             const seqError = handleSequelizeErrors(err);
             sendErrorProd(seqError, res);
         }
         if (err.name === 'JsonWebTokenError') {
             const jwtError = handleJWTError();
             sendErrorProd(jwtError, res);
+            return;
         }
         if (err.name === 'TokenExpiredError') {
             const jwtExpiredError = handleJWTExpiredError();
             sendErrorProd(jwtExpiredError, res);
+            return;
         }
         sendErrorProd(err, res);
     }

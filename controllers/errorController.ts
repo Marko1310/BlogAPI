@@ -1,18 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import AppError from '../services/appErrorServices';
 import Sequelize, { ValidationError, UniqueConstraintError } from 'sequelize';
-import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
 
 // types of error
 type SequelizeError = ValidationError | UniqueConstraintError;
-type JwtError = JsonWebTokenError | TokenExpiredError;
 
-const globallErrorHandler = (
-  err: any,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const globallErrorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 
@@ -37,24 +30,17 @@ const globallErrorHandler = (
         message: err.errors[0].message,
       });
     } else {
-      res
-        .status(err.statusCode)
-        .json({ status: err.status, error: err, message: err.message });
+      res.status(err.statusCode).json({ status: err.status, error: err, message: err.message });
     }
   };
 
   const sendErrorProd = (err: AppError, res: Response) => {
     // Operational error
     if (err.isOperational) {
-      res
-        .status(err.statusCode)
-        .json({ status: err.status, message: err.message });
+      res.status(err.statusCode).json({ status: err.status, message: err.message });
     } else {
       // Programming error
-      console.error('Error', err);
-      res
-        .status(500)
-        .json({ status: 'error', message: 'Something went wrong' });
+      res.status(500).json({ status: 'error', message: 'Something went wrong' });
     }
   };
 
@@ -62,20 +48,19 @@ const globallErrorHandler = (
     sendErrorDev(err, res);
   } else if (process.env.NODE_ENV === 'production') {
     // Sequelize error
-    if (
-      err instanceof Sequelize.ValidationError ||
-      err instanceof Sequelize.UniqueConstraintError
-    ) {
+    if (err instanceof Sequelize.ValidationError || err instanceof Sequelize.UniqueConstraintError) {
       const seqError = handleSequelizeErrors(err);
       sendErrorProd(seqError, res);
     }
     if (err.name === 'JsonWebTokenError') {
       const jwtError = handleJWTError();
       sendErrorProd(jwtError, res);
+      return;
     }
     if (err.name === 'TokenExpiredError') {
       const jwtExpiredError = handleJWTExpiredError();
       sendErrorProd(jwtExpiredError, res);
+      return;
     }
     sendErrorProd(err, res);
   }

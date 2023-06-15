@@ -2,7 +2,7 @@
 import { Request, Response, NextFunction } from 'express';
 
 // Models
-import { User } from '../models/user';
+import { UserOutput } from '../models/user';
 
 // Controllers
 import inputValidateController from './inputController';
@@ -11,8 +11,9 @@ import inputValidateController from './inputController';
 import blogServices from '../services/blogServices';
 import userServices from '../services/userServices';
 
+// interfaces
 interface customRequest extends Request {
-  user: User;
+  user: UserOutput;
 }
 interface AllowDeclineRequestBody {
   blogId: number;
@@ -23,12 +24,8 @@ interface PostBlogRequestBody {
   content: string;
 }
 
-const postBlog = async (
-  req: customRequest,
-  res: Response,
-  next: NextFunction
-) => {
-  const { userId, email, role } = req.user;
+const postBlog = async (req: Request, res: Response, next: NextFunction) => {
+  const { userId, email, role } = (req as customRequest).user;
   const { title, content }: PostBlogRequestBody = req.body;
 
   try {
@@ -37,13 +34,7 @@ const postBlog = async (
 
     let newBlog;
     if (role === 'admin') {
-      newBlog = await blogServices.createNewBlog(
-        title,
-        content,
-        userId,
-        email,
-        true
-      );
+      newBlog = await blogServices.createNewBlog(title, content, userId, email, true);
     } else {
       newBlog = await blogServices.createNewBlog(title, content, userId, email);
     }
@@ -54,11 +45,7 @@ const postBlog = async (
   }
 };
 
-const allowDeclinePost = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const allowDeclinePost = async (req: Request, res: Response, next: NextFunction) => {
   const { blogId, action }: AllowDeclineRequestBody = req.body;
 
   try {

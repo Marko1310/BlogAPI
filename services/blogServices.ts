@@ -18,20 +18,18 @@ const createNewBlog = (
   const blog = Blog.create(blogInput);
   return blog;
 };
-const findAllBlogs = () => Blog.findAll();
+const findAllBlogs = (): Promise<BlogOutput[] | null> => Blog.findAll();
 
-const findPublicBlogs = () => Blog.findAll({ where: { allowed: true } });
+const findPublicBlogs = (): Promise<BlogOutput[] | null> => Blog.findAll({ where: { allowed: true } });
 
-const findBlogByBlogID = (blogId: number) =>
-  Blog.findOne({ where: { blogId } });
+const findBlogByBlogID = (blogId: number): Promise<BlogOutput | null> => Blog.findOne({ where: { blogId } });
 
-const findBlogByUserID = (userId: number) =>
-  Blog.findAll({ where: { userId } });
+const findBlogByUserID = (userId: number): Promise<BlogOutput[] | null> => Blog.findAll({ where: { userId } });
 
-const allowBlog = (blogId: number) =>
+const allowBlog = (blogId: number): Promise<[affectedCount: number]> =>
   Blog.update({ allowed: true }, { where: { blogId } });
 
-const declineBlog = (blogId: number) =>
+const declineBlog = (blogId: number): Promise<[affectedCount: number]> =>
   Blog.update({ allowed: false }, { where: { blogId } });
 
 export default {

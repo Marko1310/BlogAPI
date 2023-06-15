@@ -10,7 +10,7 @@ const router = (0, express_1.Router)();
 const blogController_1 = __importDefault(require("../controllers/blogController"));
 // middleware
 const authMiddleware_1 = __importDefault(require("../middleware/authMiddleware"));
-// routes
+// Routes
 // @route   POST /api/auth/post
 // @desc    Create a new blog
 // @access  Private

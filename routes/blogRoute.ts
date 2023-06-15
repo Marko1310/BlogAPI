@@ -9,7 +9,7 @@ import blogController from '../controllers/blogController';
 // middleware
 import authMiddleware from '../middleware/authMiddleware';
 
-// routes
+// Routes
 
 // @route   POST /api/auth/post
 // @desc    Create a new blog

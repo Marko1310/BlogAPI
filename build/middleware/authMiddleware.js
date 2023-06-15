@@ -11,8 +11,7 @@ const requireAuth = async (req, res, next) => {
     try {
         // 1. Getting the token and check if it's there
         let token;
-        if (req.headers.authorization &&
-            req.headers.authorization.startsWith('Bearer')) {
+        if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
             token = req.headers.authorization.split(' ')[1];
         }
         if (!token) {
@@ -20,6 +19,9 @@ const requireAuth = async (req, res, next) => {
         }
         // 2. Verification token
         const decodedToken = jwtServices_1.default.verifyJwtToken(token);
+        if (!decodedToken) {
+            throw new appErrorServices_1.default('Invalid token! Please log in again to get access.', 401);
+        }
         // 3. Check if user still exists
         const currentUser = await userServices_1.default.findUserbyID(decodedToken.userId);
         if (!currentUser) {
