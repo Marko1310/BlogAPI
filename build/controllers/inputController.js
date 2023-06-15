@@ -5,8 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // Global Error handler
 const appErrorServices_1 = __importDefault(require("../services/appErrorServices"));
-// email regex
+// regex
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const nameRegex = /^[A-Za-z]{2,}$/;
 // Input validator functions
 const isValidEmail = (email) => {
     if (email.length === 0 || emailRegex.test(email) === false) {
@@ -21,6 +22,9 @@ const isValidPassword = (password) => {
 const isValidName = (name, fieldName) => {
     if (name.length === 0) {
         throw new appErrorServices_1.default(`${fieldName} cannot be empty`, 400);
+    }
+    if (nameRegex.test(name) === false) {
+        throw new appErrorServices_1.default(`Not a valid ${fieldName}`, 400);
     }
 };
 const isValidBlogTitle = (title) => {
