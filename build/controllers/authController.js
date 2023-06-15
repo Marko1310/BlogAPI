@@ -38,15 +38,11 @@ const login = async (req, res, next) => {
                 jwtServices_1.default.sendJwtResponse(user, res);
             }
             else {
-                throw new appErrorServices_1.default(process.env.NODE_ENV === 'production'
-                    ? 'Something is wrong with your credentials'
-                    : 'Wrong password', 400);
+                throw new appErrorServices_1.default(process.env.NODE_ENV === 'production' ? 'Something is wrong with your credentials' : 'Wrong password', 401);
             }
         }
         else {
-            throw new appErrorServices_1.default(process.env.NODE_ENV === 'production'
-                ? 'Something is wrong with your credentials'
-                : 'Email does not exist', 400);
+            throw new appErrorServices_1.default(process.env.NODE_ENV === 'production' ? 'Something is wrong with your credentials' : 'Email does not exist', 401);
         }
     }
     catch (err) {

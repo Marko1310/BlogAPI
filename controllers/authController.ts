@@ -29,13 +29,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
     inputValidateController.isValidName(lastName, 'Last name');
 
     // create a new user
-    const user: UserOutput = await userServices.newUser(
-      email,
-      password,
-      firstName,
-      lastName,
-      role
-    );
+    const user: UserOutput = await userServices.newUser(email, password, firstName, lastName, role);
     // create and send token
     jwtServices.sendJwtResponse(user, res);
   } catch (err) {
@@ -46,27 +40,23 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 const login = async (req: Request, res: Response, next: NextFunction) => {
   const { email, password }: LoginRequestBody = req.body;
   try {
-    const user = await userServices.findUserbyEmail(email);
+    const user: UserOutput | null = await userServices.findUserbyEmail(email);
 
     if (user) {
-      const authenticated = await bcryptServices.checkPassword(password, user);
+      const authenticated: boolean = await bcryptServices.checkPassword(password, user);
       if (authenticated) {
         // create and send token
         jwtServices.sendJwtResponse(user, res);
       } else {
         throw new AppError(
-          process.env.NODE_ENV === 'production'
-            ? 'Something is wrong with your credentials'
-            : 'Wrong password',
-          400
+          process.env.NODE_ENV === 'production' ? 'Something is wrong with your credentials' : 'Wrong password',
+          401
         );
       }
     } else {
       throw new AppError(
-        process.env.NODE_ENV === 'production'
-          ? 'Something is wrong with your credentials'
-          : 'Email does not exist',
-        400
+        process.env.NODE_ENV === 'production' ? 'Something is wrong with your credentials' : 'Email does not exist',
+        401
       );
     }
   } catch (err) {

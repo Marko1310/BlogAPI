@@ -23,11 +23,11 @@ const newUser = (
 };
 
 // Find users
-const findUserbyID = (userId: number) => User.findOne({ where: { userId } });
-const findUserbyEmail = (email: string) => User.findOne({ where: { email } });
+const findUserbyID = (userId: number): Promise<UserOutput | null> => User.findOne({ where: { userId } });
+const findUserbyEmail = (email: string): Promise<UserOutput | null> => User.findOne({ where: { email } });
 
 // Change user role
-const changeUserRole = (userId: number, newRole: UserRole) =>
+const changeUserRole = (userId: number, newRole: UserRole): Promise<[affectedCount: number]> =>
   User.update({ role: newRole }, { where: { userId } });
 
 export default { newUser, findUserbyID, findUserbyEmail, changeUserRole };
