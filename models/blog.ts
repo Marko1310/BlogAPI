@@ -1,12 +1,7 @@
 import sequelize from '../config/databaseConnection';
 import { User } from './user';
 
-import {
-  Model,
-  DataTypes,
-  Optional,
-  BelongsToGetAssociationMixin,
-} from 'sequelize';
+import { Model, DataTypes, Optional, BelongsToGetAssociationMixin } from 'sequelize';
 
 interface BlogAttributes {
   blogId: number;
@@ -17,8 +12,7 @@ interface BlogAttributes {
   userId: number;
 }
 
-interface BlogInput
-  extends Optional<BlogAttributes, 'blogId' | 'userId' | 'allowed'> {
+interface BlogInput extends Optional<BlogAttributes, 'blogId' | 'userId' | 'allowed'> {
   title: string;
   content: string;
   userId: number;
@@ -26,7 +20,7 @@ interface BlogInput
   allowed: boolean;
 }
 
-type BlogOutput = BlogAttributes;
+type BlogOutput = Blog;
 
 class Blog extends Model<BlogAttributes, BlogInput> implements BlogAttributes {
   declare blogId: number;

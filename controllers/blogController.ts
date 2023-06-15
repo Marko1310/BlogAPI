@@ -10,6 +10,7 @@ import inputValidateController from './inputController';
 // services
 import blogServices from '../services/blogServices';
 import userServices from '../services/userServices';
+import AppError from '../services/appErrorServices';
 
 // interfaces
 interface customRequest extends Request {
@@ -54,6 +55,8 @@ const allowDeclinePost = async (req: Request, res: Response, next: NextFunction)
     let user = null;
     if (blog) {
       user = await blog.getUser();
+    } else {
+      throw new AppError(`There is no blog (blogId: ${blogId})`, 404);
     }
 
     // depending on the action
@@ -62,12 +65,12 @@ const allowDeclinePost = async (req: Request, res: Response, next: NextFunction)
       if (user.role !== 'admin') {
         await userServices.changeUserRole(user.userId, 'blogger');
       }
-      res.status(200).json(`Blog (blogId ${blog?.blogId}) is allowed`);
-    }
-
-    if (action === 'decline') {
+      res.status(200).json(`Blog (blogId: ${blog?.blogId}) is allowed`);
+    } else if (action === 'decline' && user) {
       await blogServices.declineBlog(blogId);
-      res.status(200).json(`Blog (blogId ${blog?.blogId}) is declined`);
+      res.status(200).json(`Blog (blogId: ${blog?.blogId}) is declined`);
+    } else {
+      throw new AppError(`Invalid action: (${action})`, 400);
     }
   } catch (err) {
     return next(err);

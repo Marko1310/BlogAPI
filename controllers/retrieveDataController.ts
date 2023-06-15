@@ -27,35 +27,26 @@ const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const getRequestedPosts = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const getRequestedPosts = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const requestedPosts: BlogOutput[] =
-      await retrieveDataServices.getRequestedPosts();
+    const requestedPosts: BlogOutput[] = await retrieveDataServices.getRequestedPosts();
     res.status(200).json(requestedPosts);
   } catch (err) {
     return next(err);
   }
 };
 
-const getPosts = async (
-  req: customRequest,
-  res: Response,
-  next: NextFunction
-) => {
+const getPosts = async (req: Request, res: Response, next: NextFunction) => {
   try {
     // User is authenticated and role is admin
-    if (req.user.role === 'admin') {
+    if ((req as customRequest).user.role === 'admin') {
       const allPosts = await blogServices.findAllBlogs();
       res.status(200).json(allPosts);
     }
 
     // User is authenticated and role is blogger
-    if (req.user.role === 'blogger') {
-      const userPosts = await blogServices.findBlogByUserID(req.user.userId);
+    if ((req as customRequest).user.role === 'blogger') {
+      const userPosts = await blogServices.findBlogByUserID((req as customRequest).user.userId);
       res.status(200).json(userPosts);
     }
   } catch (err) {

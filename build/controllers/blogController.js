@@ -8,6 +8,7 @@ const inputController_1 = __importDefault(require("./inputController"));
 // services
 const blogServices_1 = __importDefault(require("../services/blogServices"));
 const userServices_1 = __importDefault(require("../services/userServices"));
+const appErrorServices_1 = __importDefault(require("../services/appErrorServices"));
 const postBlog = async (req, res, next) => {
     const { userId, email, role } = req.user;
     const { title, content } = req.body;
@@ -36,17 +37,23 @@ const allowDeclinePost = async (req, res, next) => {
         if (blog) {
             user = await blog.getUser();
         }
+        else {
+            throw new appErrorServices_1.default(`There is no blog (blogId: ${blogId})`, 404);
+        }
         // depending on the action
         if (action === 'allow' && user) {
             await blogServices_1.default.allowBlog(blogId);
             if (user.role !== 'admin') {
                 await userServices_1.default.changeUserRole(user.userId, 'blogger');
             }
-            res.status(200).json(`Blog (blogId ${blog?.blogId}) is allowed`);
+            res.status(200).json(`Blog (blogId: ${blog?.blogId}) is allowed`);
         }
-        if (action === 'decline') {
+        else if (action === 'decline' && user) {
             await blogServices_1.default.declineBlog(blogId);
-            res.status(200).json(`Blog (blogId ${blog?.blogId}) is declined`);
+            res.status(200).json(`Blog (blogId: ${blog?.blogId}) is declined`);
+        }
+        else {
+            throw new appErrorServices_1.default(`Invalid action: (${action})`, 400);
         }
     }
     catch (err) {
