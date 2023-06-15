@@ -13,7 +13,9 @@ const allowPublicAccess = async (req, res, next) => {
             res.status(200).json(publicPosts);
             return;
         }
-        next();
+        else {
+            next();
+        }
     }
     catch (err) {
         next(err);

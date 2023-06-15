@@ -70,7 +70,7 @@ const allowDeclinePost = async (req: Request, res: Response, next: NextFunction)
       await blogServices.declineBlog(blogId);
       res.status(200).json(`Blog (blogId: ${blog?.blogId}) is declined`);
     } else {
-      throw new AppError(`Invalid action: (${action})`, 400);
+      throw new AppError(`Invalid action: (${action}), please provide type of 'allow' or 'decline'`, 400);
     }
   } catch (err) {
     return next(err);

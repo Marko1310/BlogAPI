@@ -2,18 +2,19 @@
 import { User } from '../models/user';
 import { Blog } from '../models/blog';
 
-const getAllUsers = () => {
-  return User.findAll({
+import { UserOutput } from '../models/user';
+import { BlogOutput } from '../models/blog';
+
+const getAllUsers = (): Promise<UserOutput[]> =>
+  User.findAll({
     attributes: ['firstName', 'lastName'],
   });
-};
 
-const getRequestedPosts = () => {
-  return Blog.findAll({
+const getRequestedPosts = (): Promise<BlogOutput[]> =>
+  Blog.findAll({
     where: {
       allowed: false,
     },
   });
-};
 
 export default { getAllUsers, getRequestedPosts };
