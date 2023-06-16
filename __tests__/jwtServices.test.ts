@@ -22,19 +22,31 @@ describe('createToken', () => {
       json: jest.fn(),
     } as unknown as Response;
 
-    const mockJwtSecret = 'my-mocked-jwt-secret';
-    process.env.JWT_SECRET = mockJwtSecret;
-
     jwtServices.sendJwtResponse(user, res);
 
     expect(mockSign).toHaveBeenCalledTimes(1);
-    expect(mockSign).toHaveBeenCalledWith({ userId: user.userId }, 'blogblog', {
+    expect(mockSign).toHaveBeenCalledWith({ userId: user.userId }, process.env.JWT_SECRET, {
       expiresIn: 604800,
     });
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith({
       userId: user.userId,
       token: 'mocked-token',
+    });
+  });
+
+  describe('verifyJwtToken', () => {
+    it('should call jwt.verify with the correct parameters', () => {
+      const mockVerify = jest.spyOn(jwt, 'verify').mockImplementation(() => {
+        123;
+      });
+
+      const token = 'mocked-token';
+
+      jwtServices.verifyJwtToken(token);
+
+      expect(mockVerify).toHaveBeenCalledTimes(1);
+      expect(mockVerify).toHaveBeenCalledWith(token, process.env.JWT_SECRET);
     });
   });
 });
