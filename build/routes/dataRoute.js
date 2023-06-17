@@ -22,9 +22,9 @@ router.get('/auth/users', authMiddleware_1.default.requireAuth, retrieveDataCont
 // @access  Private
 // @role    Admin
 router.get('/auth/post-request', authMiddleware_1.default.requireAuth, authMiddleware_1.default.restrictTo('admin'), retrieveDataController_1.default.getRequestedPosts);
-// @route   GET /api/auth/posts
+// @route   GET /api/posts
 // @desc    Get posts depending on roles
 // @access  Public/Private
 // @role    Admin/Blogger/User/Unauthenticated
-router.get('/auth/posts', publicMiddleware_1.default.allowPublicAccess, authMiddleware_1.default.requireAuth, authMiddleware_1.default.restrictTo('admin', 'blogger'), retrieveDataController_1.default.getPosts);
+router.get('/posts', publicMiddleware_1.default.allowPublicAccess, authMiddleware_1.default.requireAuth, authMiddleware_1.default.restrictTo('admin', 'blogger'), retrieveDataController_1.default.getPosts);
 exports.default = router;

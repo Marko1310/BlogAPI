@@ -16,11 +16,7 @@ import publicMiddleware from '../middleware/publicMiddleware';
 // @desc    Get all users
 // @access  Private
 // @role    Admin, Blogger, User
-router.get(
-  '/auth/users',
-  authMiddleware.requireAuth,
-  retrieveDataController.getAllUsers
-);
+router.get('/auth/users', authMiddleware.requireAuth, retrieveDataController.getAllUsers);
 
 // @route   GET /api/auth/post-request
 // @desc    Get requested posts (not allowed posts)
@@ -33,13 +29,13 @@ router.get(
   retrieveDataController.getRequestedPosts
 );
 
-// @route   GET /api/auth/posts
+// @route   GET /api/posts
 // @desc    Get posts depending on roles
 // @access  Public/Private
 // @role    Admin/Blogger/User/Unauthenticated
 
 router.get(
-  '/auth/posts',
+  '/posts',
   publicMiddleware.allowPublicAccess,
   authMiddleware.requireAuth,
   authMiddleware.restrictTo('admin', 'blogger'),
