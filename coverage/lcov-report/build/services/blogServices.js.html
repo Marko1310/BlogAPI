@@ -3,15 +3,15 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for services/userServices.ts</title>
+    <title>Code coverage report for build/services/blogServices.js</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../prettify.css" />
-    <link rel="stylesheet" href="../base.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="../favicon.png" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../sort-arrow-sprite.png);
+            background-image: url(../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">services</a> userServices.ts</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">build/services</a> blogServices.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">84.21% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>12/12</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
-                <span class="quiet">Branches</span>
-                <span class='fraction'>1/2</span>
+                <span class='fraction'>16/19</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>2/2</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">57.14% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>4/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>10/10</span>
+                <span class='fraction'>13/13</span>
             </div>
         
             
@@ -93,22 +93,11 @@
 <a name='L28'></a><a href='#L28'>28</a>
 <a name='L29'></a><a href='#L29'>29</a>
 <a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a>
-<a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -119,49 +108,51 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// User model
-import { User, UserOutput, UserInput } from '../models/user';
-&nbsp;
-type UserRole = 'admin' | 'blogger' | 'user';
-&nbsp;
-// Create user
-const newUser = (
-  email: string,
-  password: string,
-  firstName: string,
-  lastName: string,
-  role?: string
-): Promise&lt;UserOutput&gt; =&gt; {
-  const userInput: UserInput = {
-    firstName: firstName,
-    lastName: lastName,
-    email: email,
-    password: password,
-    role: role || <span class="branch-1 cbranch-no" title="branch not covered" >'user',</span>
-  };
-  const user = User.create(userInput);
-  return user;
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+// Blog model
+const blog_1 = require("../models/blog");
+const createNewBlog = (title, content, userId, email, allowed) =&gt; {
+    const blogInput = {
+        title: title,
+        content: content,
+        userId: userId,
+        author: email,
+        allowed: allowed || false,
+    };
+    const blog = blog_1.Blog.create(blogInput);
+    return blog;
 };
-&nbsp;
-// Find users
-const findUserbyID = (userId: number): Promise&lt;UserOutput | null&gt; =&gt; User.findOne({ where: { userId } });
-const findUserbyEmail = (email: string): Promise&lt;UserOutput | null&gt; =&gt; User.findOne({ where: { email } });
-&nbsp;
-// Change user role
-const changeUserRole = (userId: number, newRole: UserRole): Promise&lt;[affectedCount: number]&gt; =&gt;
-  User.update({ role: newRole }, { where: { userId } });
-&nbsp;
-export default { newUser, findUserbyID, findUserbyEmail, changeUserRole };
+const findAllBlogs = <span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >blog_1.Blog.findAll();</span>
+const findPublicBlogs = () =&gt; blog_1.Blog.findAll({ where: { allowed: true } });
+const findBlogByBlogID = (blogId) =&gt; blog_1.Blog.findOne({ where: { blogId } });
+const findBlogByUserID = <span class="fstat-no" title="function not covered" >(u</span>serId) =&gt; <span class="cstat-no" title="statement not covered" >blog_1.Blog.findAll({ where: { userId } });</span>
+const allowBlog = (blogId) =&gt; blog_1.Blog.update({ allowed: true }, { where: { blogId } });
+const declineBlog = <span class="fstat-no" title="function not covered" >(b</span>logId) =&gt; <span class="cstat-no" title="statement not covered" >blog_1.Blog.update({ allowed: false }, { where: { blogId } });</span>
+exports.default = {
+    createNewBlog,
+    findAllBlogs,
+    findPublicBlogs,
+    findBlogByBlogID,
+    findBlogByUserID,
+    allowBlog,
+    declineBlog,
+};
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -171,14 +162,14 @@ export default { newUser, findUserbyID, findUserbyEmail, changeUserRole };
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
                 at 2023-06-17T15:47:53.632Z
             </div>
-        <script src="../prettify.js"></script>
+        <script src="../../prettify.js"></script>
         <script>
             window.onload = function () {
                 prettyPrint();
             };
         </script>
-        <script src="../sorter.js"></script>
-        <script src="../block-navigation.js"></script>
+        <script src="../../sorter.js"></script>
+        <script src="../../block-navigation.js"></script>
     </body>
 </html>
     

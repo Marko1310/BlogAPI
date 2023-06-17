@@ -1,12 +1,6 @@
 // Express Router
 import { Request, Response, NextFunction } from 'express';
 
-// Models
-import { UserOutput } from '../models/user';
-
-// Controllers
-import inputController from '../controllers/inputController';
-
 // services
 import blogServices from '../services/blogServices';
 import userServices from '../services/userServices';
@@ -73,7 +67,7 @@ describe('AllowDeclinePost', () => {
 
     const next = jest.fn();
 
-    await blogController.allowDeclinePost(req as Request, res as Response, next);
+    await blogController.allowDeclinePost(req as Request, res as Response, next as NextFunction);
 
     expect(blogServices.findBlogByBlogID).toHaveBeenCalledWith(blogId);
     expect(blogServices.allowBlog).toHaveBeenCalledWith(blogId);
@@ -116,7 +110,7 @@ describe('AllowDeclinePost', () => {
 
     const next = jest.fn();
 
-    await blogController.allowDeclinePost(req as Request, res as Response, next);
+    await blogController.allowDeclinePost(req as Request, res as Response, next as NextFunction);
 
     expect(blogServices.findBlogByBlogID).toHaveBeenCalledWith(blogId);
     expect(blogServices.allowBlog).not.toHaveBeenCalled();
@@ -165,7 +159,7 @@ describe('AllowDeclinePost', () => {
 
     const next = jest.fn();
 
-    await blogController.allowDeclinePost(req as Request, res as Response, next);
+    await blogController.allowDeclinePost(req as Request, res as Response, next as NextFunction);
 
     expect(blogServices.findBlogByBlogID).toHaveBeenCalledWith(blogId);
     expect(blogServices.allowBlog).not.toHaveBeenCalled();

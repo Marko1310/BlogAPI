@@ -9,8 +9,6 @@ import inputController from '../controllers/inputController';
 
 // services
 import blogServices from '../services/blogServices';
-import userServices from '../services/userServices';
-import AppError from '../services/appErrorServices';
 import blogController from '../controllers/blogController';
 
 interface customRequest extends Request {
@@ -65,7 +63,7 @@ describe('postBlog', () => {
       allowed: true,
     };
 
-    await blogController.postBlog(req as Request, res as Response, next);
+    await blogController.postBlog(req as Request, res as Response, next as NextFunction);
 
     expect(inputController.isValidBlogTitle).toHaveBeenCalledWith('Test Blog');
     expect(inputController.isValidBlogContent).toHaveBeenCalledWith('This is a test blog post');
