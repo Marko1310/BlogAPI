@@ -10,14 +10,16 @@ jest.mock('../controllers/inputController', () => ({
   isValidEmail: jest.fn(),
   isValidPassword: jest.fn(),
   isValidName: jest.fn(),
+  isValidUserName: jest.fn(),
 }));
 
 jest.mock('../services/userServices', () => ({
   newUser: jest.fn().mockResolvedValue({
     email: 'test@example.com',
+    password: 'password123',
+    userName: 'User1',
     firstName: 'John',
     lastName: 'Doe',
-    password: 'password123',
     role: 'user',
     userId: 1,
   }),
@@ -42,6 +44,7 @@ describe('register user', () => {
       body: {
         email: 'test@example.com',
         password: 'password123',
+        userName: 'User1',
         firstName: 'John',
         lastName: 'Doe',
         role: 'user',
@@ -54,20 +57,29 @@ describe('register user', () => {
 
     const mockUserOutput = {
       userId: 1,
-      firstName: 'John',
-      lastName: 'Doe',
       email: 'test@example.com',
       password: 'password123',
+      userName: 'User1',
+      firstName: 'John',
+      lastName: 'Doe',
       role: 'user',
     };
 
     await authController.register(req as Request, res as unknown as Response, next);
 
     expect(inputController.isValidEmail).toHaveBeenCalledWith('test@example.com');
+    expect(inputController.isValidUserName).toHaveBeenCalledWith('User1');
     expect(inputController.isValidPassword).toHaveBeenCalledWith('password123');
     expect(inputController.isValidName).toHaveBeenCalledWith('John', 'First name');
     expect(inputController.isValidName).toHaveBeenCalledWith('Doe', 'Last name');
-    expect(userServices.newUser).toHaveBeenCalledWith('test@example.com', 'password123', 'John', 'Doe', 'user');
+    expect(userServices.newUser).toHaveBeenCalledWith(
+      'test@example.com',
+      'User1',
+      'password123',
+      'John',
+      'Doe',
+      'user'
+    );
     expect(jwtServices.sendJwtResponse).toHaveBeenCalledWith(mockUserOutput, res);
     expect(next).not.toHaveBeenCalled();
   });
@@ -98,7 +110,7 @@ describe('login user', () => {
 
     await authController.login(req as Request, res as Response, next);
 
-    expect(userServices.findUserbyEmail).toHaveBeenCalledWith(req.body.email);
+    expect(userServices.findUserbyEmail).toHaveBeenCalledWith('test@example.com');
     expect(bcryptServices.checkPassword).not.toHaveBeenCalled();
     expect(next).toHaveBeenCalledWith(mockError);
   });
@@ -119,6 +131,7 @@ describe('login user', () => {
     const mockUser = {
       email: 'test@example.com',
       password: 'password123',
+      userName: 'User1',
       firstName: 'John',
       lastName: 'Doe',
       role: 'user',
@@ -128,7 +141,7 @@ describe('login user', () => {
 
     await authController.login(req as Request, res as Response, next);
 
-    expect(bcryptServices.checkPassword).toHaveBeenCalledWith(req.body.password, mockUser);
+    expect(bcryptServices.checkPassword).toHaveBeenCalledWith('password123', mockUser);
   });
 
   it('should return a 401 error if auth fails', async () => {

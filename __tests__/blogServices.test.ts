@@ -11,18 +11,18 @@ describe('blogServices', () => {
     const title = 'title';
     const content = 'some blog';
     const userId = 123;
-    const email = 'john.doe@example.com';
+    const userName = 'User1';
     const allowed = false;
 
     const blogInput = {
       title: title,
       content: content,
       userId: userId,
-      author: email,
+      author: userName,
       allowed: allowed || false,
     };
 
-    const blog = await blogServices.createNewBlog(title, content, userId, email, allowed);
+    const blog = await blogServices.createNewBlog(title, content, userId, userName, allowed);
 
     expect(mockCreate).toBeCalledTimes(1);
     expect(mockCreate).toBeCalledWith(blogInput);
@@ -37,7 +37,10 @@ describe('blogServices', () => {
     const result = await blogServices.findPublicBlogs();
 
     expect(mockFindAll).toBeCalledTimes(1);
-    expect(mockFindAll).toBeCalledWith({ where: { allowed } });
+    expect(mockFindAll).toBeCalledWith({
+      where: { allowed: allowed },
+      attributes: ['title', 'content', 'author'],
+    });
     expect(result).toEqual([{}] as BlogOutput[]);
   });
 

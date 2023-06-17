@@ -25,6 +25,7 @@ jest.mock('../services/blogServices', () => ({
     blogId: 1,
     title: 'Test Blog',
     content: 'This is a test blog post',
+    author: 'User1',
     userId: 123,
     allowed: true,
   }),
@@ -42,9 +43,10 @@ describe('postBlog', () => {
       },
       user: {
         email: 'test@example.com',
+        password: 'password123',
+        userName: 'User1',
         firstName: 'John',
         lastName: 'Doe',
-        password: 'password123',
         role: 'admin',
         userId: 123,
       },
@@ -59,6 +61,7 @@ describe('postBlog', () => {
       blogId: 1,
       title: 'Test Blog',
       content: 'This is a test blog post',
+      author: 'User1',
       userId: 123,
       allowed: true,
     };
@@ -71,7 +74,7 @@ describe('postBlog', () => {
       'Test Blog',
       'This is a test blog post',
       123,
-      'test@example.com',
+      'User1',
       true
     );
     expect(res.status).toHaveBeenCalledWith(200);

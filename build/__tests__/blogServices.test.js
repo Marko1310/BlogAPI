@@ -14,16 +14,16 @@ describe('blogServices', () => {
         const title = 'title';
         const content = 'some blog';
         const userId = 123;
-        const email = 'john.doe@example.com';
+        const userName = 'User1';
         const allowed = false;
         const blogInput = {
             title: title,
             content: content,
             userId: userId,
-            author: email,
+            author: userName,
             allowed: allowed || false,
         };
-        const blog = await blogServices_1.default.createNewBlog(title, content, userId, email, allowed);
+        const blog = await blogServices_1.default.createNewBlog(title, content, userId, userName, allowed);
         expect(mockCreate).toBeCalledTimes(1);
         expect(mockCreate).toBeCalledWith(blogInput);
         expect(blog).toEqual({});
@@ -33,7 +33,10 @@ describe('blogServices', () => {
         const allowed = true;
         const result = await blogServices_1.default.findPublicBlogs();
         expect(mockFindAll).toBeCalledTimes(1);
-        expect(mockFindAll).toBeCalledWith({ where: { allowed } });
+        expect(mockFindAll).toBeCalledWith({
+            where: { allowed: allowed },
+            attributes: ['title', 'content', 'author'],
+        });
         expect(result).toEqual([{}]);
     });
     it('should call Blog.findOne with the correct parameters and return the expected result', async () => {

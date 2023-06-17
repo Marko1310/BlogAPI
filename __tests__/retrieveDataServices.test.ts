@@ -6,7 +6,7 @@ import { Blog } from '../models/blog';
 test('it should call User.findAll once', async () => {
   const mockFindAll = jest.fn();
   User.findAll = mockFindAll;
-  await retrieveDataServices.getAllUsers();
+  await retrieveDataServices.getAllUsers('admin');
 
   expect(mockFindAll).toHaveBeenCalled();
 

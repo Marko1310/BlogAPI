@@ -12,27 +12,31 @@ test('newUser function should call User.create with correct parameters and store
         firstName: 'John',
         lastName: 'Doe',
         email: 'johndoe@example.com',
+        userName: 'User1',
         password: 'password',
         role: 'user',
     });
     const email = 'johndoe@example.com';
     const password = 'password';
+    const userName = 'User1';
     const firstName = 'John';
     const lastName = 'Doe';
     const role = 'user';
-    const user = await userServices_1.default.newUser(email, password, firstName, lastName, role);
+    const user = await userServices_1.default.newUser(email, userName, password, firstName, lastName, role);
     expect(mockCreate).toHaveBeenCalledTimes(1);
     expect(mockCreate).toHaveBeenCalledWith({
         firstName,
         lastName,
         email,
         password,
+        userName,
         role,
     });
     expect(user).toEqual({
         userId: 1,
         firstName: 'John',
         lastName: 'Doe',
+        userName: 'User1',
         email: 'johndoe@example.com',
         password: 'password',
         role: 'user',

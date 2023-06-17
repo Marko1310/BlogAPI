@@ -12,6 +12,7 @@ describe('createToken', () => {
         const user = {
             userId: 123,
             email: 'user@user.com',
+            userName: 'User1',
             password: 'hash',
             firstName: 'User',
             lastName: 'User',

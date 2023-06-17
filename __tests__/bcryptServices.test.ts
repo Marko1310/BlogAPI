@@ -10,6 +10,7 @@ describe('bcrypt.compare', () => {
       firstName: 'John',
       lastName: 'Doe',
       email: 'johndoe@example.com',
+      userName: 'User1',
       password: 'hashed-password',
       role: 'user',
     };

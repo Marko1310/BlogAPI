@@ -9,7 +9,7 @@ const blog_1 = require("../models/blog");
 test('it should call User.findAll once', async () => {
     const mockFindAll = jest.fn();
     user_1.User.findAll = mockFindAll;
-    await retrieveDataServices_1.default.getAllUsers();
+    await retrieveDataServices_1.default.getAllUsers('admin');
     expect(mockFindAll).toHaveBeenCalled();
     expect(mockFindAll).toHaveBeenCalledTimes(1);
     mockFindAll.mockRestore();
