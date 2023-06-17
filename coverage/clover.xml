@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1686931434386" clover="3.2.0">
-  <project timestamp="1686931434386" name="All files">
-    <metrics statements="97" coveredstatements="91" conditionals="24" coveredconditionals="19" methods="21" coveredmethods="16" elements="142" coveredelements="126" complexity="0" loc="97" ncloc="97" packages="6" files="11" classes="11"/>
+<coverage generated="1686987381806" clover="3.2.0">
+  <project timestamp="1686987381806" name="All files">
+    <metrics statements="115" coveredstatements="108" conditionals="26" coveredconditionals="21" methods="29" coveredmethods="21" elements="170" coveredelements="150" complexity="0" loc="115" ncloc="115" packages="6" files="13" classes="13"/>
     <package name="build.config">
       <metrics statements="9" coveredstatements="9" conditionals="2" coveredconditionals="1" methods="0" coveredmethods="0"/>
       <file name="databaseConnection.js" path="/Users/marko/Documents/programiranje/Projects/blogAPI/build/config/databaseConnection.js">
@@ -76,24 +76,24 @@
       <metrics statements="8" coveredstatements="8" conditionals="2" coveredconditionals="1" methods="0" coveredmethods="0"/>
       <file name="databaseConnection.ts" path="/Users/marko/Documents/programiranje/Projects/blogAPI/config/databaseConnection.ts">
         <metrics statements="8" coveredstatements="8" conditionals="2" coveredconditionals="1" methods="0" coveredmethods="0"/>
-        <line num="1" count="2" type="stmt"/>
-        <line num="3" count="2" type="stmt"/>
-        <line num="4" count="2" type="stmt"/>
-        <line num="5" count="2" type="stmt"/>
-        <line num="6" count="2" type="stmt"/>
-        <line num="7" count="2" type="cond" truecount="1" falsecount="1"/>
-        <line num="9" count="2" type="stmt"/>
-        <line num="15" count="2" type="stmt"/>
+        <line num="1" count="3" type="stmt"/>
+        <line num="3" count="3" type="stmt"/>
+        <line num="4" count="3" type="stmt"/>
+        <line num="5" count="3" type="stmt"/>
+        <line num="6" count="3" type="stmt"/>
+        <line num="7" count="3" type="cond" truecount="1" falsecount="1"/>
+        <line num="9" count="3" type="stmt"/>
+        <line num="15" count="3" type="stmt"/>
       </file>
     </package>
     <package name="models">
       <metrics statements="13" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
       <file name="blog.ts" path="/Users/marko/Documents/programiranje/Projects/blogAPI/models/blog.ts">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="35" count="1" type="stmt"/>
-        <line num="72" count="1" type="stmt"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="35" count="2" type="stmt"/>
+        <line num="72" count="2" type="stmt"/>
       </file>
       <file name="user.ts" path="/Users/marko/Documents/programiranje/Projects/blogAPI/models/user.ts">
         <metrics statements="9" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
@@ -109,7 +109,31 @@
       </file>
     </package>
     <package name="services">
-      <metrics statements="30" coveredstatements="30" conditionals="4" coveredconditionals="3" methods="9" coveredmethods="9"/>
+      <metrics statements="48" coveredstatements="47" conditionals="6" coveredconditionals="5" methods="17" coveredmethods="14"/>
+      <file name="bcryptServices.ts" path="/Users/marko/Documents/programiranje/Projects/blogAPI/services/bcryptServices.ts">
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+      </file>
+      <file name="blogServices.ts" path="/Users/marko/Documents/programiranje/Projects/blogAPI/services/blogServices.ts">
+        <metrics statements="14" coveredstatements="13" conditionals="2" coveredconditionals="2" methods="7" coveredmethods="4"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+      </file>
       <file name="jwtServices.ts" path="/Users/marko/Documents/programiranje/Projects/blogAPI/services/jwtServices.ts">
         <metrics statements="13" coveredstatements="13" conditionals="2" coveredconditionals="2" methods="3" coveredmethods="3"/>
         <line num="2" count="1" type="stmt"/>
