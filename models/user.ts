@@ -5,29 +5,32 @@ import bcrypt from 'bcryptjs';
 interface UserAttributes {
   role: string;
   userId: number;
-  firstName: string;
-  lastName: string;
   email: string;
   password: string;
+  userName: string;
+  firstName: string;
+  lastName: string;
 }
 
 interface UserInput extends Optional<UserAttributes, 'userId'> {
-  firstName: string;
-  lastName: string;
   email: string;
   password: string;
+  userName: string;
+  firstName: string;
+  lastName: string;
   role: string;
 }
 
 type UserOutput = UserAttributes;
 
 class User extends Model<UserAttributes, UserInput> implements UserAttributes {
-  declare role: string;
   declare userId: number;
-  declare firstName: string;
-  declare lastName: string;
   declare email: string;
   declare password: string;
+  declare userName: string;
+  declare firstName: string;
+  declare lastName: string;
+  declare role: string;
 }
 
 User.init(
@@ -49,6 +52,15 @@ User.init(
         isEmail: { msg: 'Please provide a valid email address' },
         notNull: { msg: 'Please provide a valid email address' },
         notEmpty: { msg: 'Please provide a valid email address' },
+      },
+    },
+    userName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        notNull: { msg: 'Please provide a valid user name' },
+        notEmpty: { msg: 'Please provide a valid user name' },
       },
     },
     password: {

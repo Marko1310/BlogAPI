@@ -51,6 +51,7 @@ const globallErrorHandler = (err: any, req: Request, res: Response, next: NextFu
     if (err instanceof Sequelize.ValidationError || err instanceof Sequelize.UniqueConstraintError) {
       const seqError = handleSequelizeErrors(err);
       sendErrorProd(seqError, res);
+      return;
     }
     if (err.name === 'JsonWebTokenError') {
       const jwtError = handleJWTError();

@@ -14,6 +14,11 @@ const isValidEmail = (email) => {
         throw new appErrorServices_1.default('Please provide a valid email address', 400);
     }
 };
+const isValidUserName = (userName) => {
+    if (userName.length === 0) {
+        throw new appErrorServices_1.default('Please provide a valid user name', 400);
+    }
+};
 const isValidPassword = (password) => {
     if (password.length < 6) {
         throw new appErrorServices_1.default('Password should be at least 6 characters long', 400);
@@ -39,6 +44,7 @@ const isValidBlogContent = (content) => {
 };
 exports.default = {
     isValidEmail,
+    isValidUserName,
     isValidPassword,
     isValidName,
     isValidBlogTitle,

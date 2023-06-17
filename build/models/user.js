@@ -30,6 +30,15 @@ User.init({
             notEmpty: { msg: 'Please provide a valid email address' },
         },
     },
+    userName: {
+        type: sequelize_1.DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+            notNull: { msg: 'Please provide a valid user name' },
+            notEmpty: { msg: 'Please provide a valid user name' },
+        },
+    },
     password: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,

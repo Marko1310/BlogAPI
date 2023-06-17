@@ -19,7 +19,8 @@ interface customRequest extends Request {
 
 const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const users: UserAttributes[] = await retrieveDataServices.getAllUsers();
+    const { role } = (req as customRequest).user;
+    const users: UserAttributes[] = await retrieveDataServices.getAllUsers(role);
 
     res.status(200).json(users);
   } catch (err) {

@@ -12,6 +12,12 @@ const isValidEmail = (email: string) => {
   }
 };
 
+const isValidUserName = (userName: string) => {
+  if (userName.length === 0) {
+    throw new AppError('Please provide a valid user name', 400);
+  }
+};
+
 const isValidPassword = (password: string) => {
   if (password.length < 6) {
     throw new AppError('Password should be at least 6 characters long', 400);
@@ -41,6 +47,7 @@ const isValidBlogContent = (content: string) => {
 
 export default {
   isValidEmail,
+  isValidUserName,
   isValidPassword,
   isValidName,
   isValidBlogTitle,

@@ -8,7 +8,8 @@ const retrieveDataServices_1 = __importDefault(require("../services/retrieveData
 const blogServices_1 = __importDefault(require("../services/blogServices"));
 const getAllUsers = async (req, res, next) => {
     try {
-        const users = await retrieveDataServices_1.default.getAllUsers();
+        const { role } = req.user;
+        const users = await retrieveDataServices_1.default.getAllUsers(role);
         res.status(200).json(users);
     }
     catch (err) {

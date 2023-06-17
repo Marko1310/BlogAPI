@@ -1,5 +1,6 @@
-// Blog model
+// Models
 import { Blog, BlogInput, BlogOutput } from '../models/blog';
+import { User } from '../models/user';
 
 const createNewBlog = (
   title: string,
@@ -20,7 +21,12 @@ const createNewBlog = (
 };
 const findAllBlogs = (): Promise<BlogOutput[] | null> => Blog.findAll();
 
-const findPublicBlogs = (): Promise<BlogOutput[] | null> => Blog.findAll({ where: { allowed: true } });
+const findPublicBlogs = (): Promise<BlogOutput[] | null> =>
+  Blog.findAll({
+    where: { allowed: true },
+    attributes: ['title', 'content'],
+    include: [{ model: User, attributes: ['userName'] }],
+  });
 
 const findBlogByBlogID = (blogId: number): Promise<BlogOutput | null> => Blog.findOne({ where: { blogId } });
 

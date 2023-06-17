@@ -19,17 +19,18 @@ interface LoginRequestBody {
 }
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
-  const { email, password, firstName, lastName, role }: UserInput = req.body;
+  const { email, password, userName, firstName, lastName, role }: UserInput = req.body;
 
   try {
     // basic input check
     inputValidateController.isValidEmail(email);
+    inputValidateController.isValidUserName(userName);
     inputValidateController.isValidPassword(password);
     inputValidateController.isValidName(firstName, 'First name');
     inputValidateController.isValidName(lastName, 'Last name');
 
     // create a new user
-    const user: UserOutput = await userServices.newUser(email, password, firstName, lastName, role);
+    const user: UserOutput = await userServices.newUser(email, userName, password, firstName, lastName, role);
     // create and send token
     jwtServices.sendJwtResponse(user, res);
   } catch (err) {

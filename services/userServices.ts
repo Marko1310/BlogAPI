@@ -6,16 +6,18 @@ type UserRole = 'admin' | 'blogger' | 'user';
 // Create user
 const newUser = (
   email: string,
+  userName: string,
   password: string,
   firstName: string,
   lastName: string,
   role?: string
 ): Promise<UserOutput> => {
   const userInput: UserInput = {
+    email: email,
+    userName: userName,
+    password: password,
     firstName: firstName,
     lastName: lastName,
-    email: email,
-    password: password,
     role: role || 'user',
   };
   const user = User.create(userInput);
