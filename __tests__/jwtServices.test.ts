@@ -5,7 +5,7 @@ import { Response } from 'express';
 jest.mock('jsonwebtoken');
 
 describe('createToken', () => {
-  it('should call jwt.sign with the correct parameters nad send a response', () => {
+  it('should call jwt.sign with the correct parameters and send a response', () => {
     const mockSign = jest.spyOn(jwt, 'sign').mockImplementation(() => 'mocked-token');
 
     const user = {

@@ -9,8 +9,8 @@
     "dev": "NODE_ENV=development concurrently \"npx tsc -w\" \"nodemon build/server.js\"",
     "prod": "NODE_ENV=production concurrently \"npx tsc -w\" \"nodemon build/server.js\"",
     "test": "jest",
-    "test :watch": "jest --watch",
-    "test :coverage": "jest --coverage"
+    "watch": "jest --watch",
+    "coverage": "jest --coverage"
   },
   "author": "Marko",
   "license": "ISC",
