@@ -1,19 +1,18 @@
 // Models
 import { Blog, BlogInput, BlogOutput } from '../models/blog';
-import { User } from '../models/user';
 
 const createNewBlog = (
   title: string,
   content: string,
   userId: number,
-  email: string,
+  userName: string,
   allowed?: boolean
 ): Promise<BlogOutput> => {
   const blogInput: BlogInput = {
     title: title,
     content: content,
     userId: userId,
-    author: email,
+    author: userName,
     allowed: allowed || false,
   };
   const blog = Blog.create(blogInput);
@@ -24,8 +23,7 @@ const findAllBlogs = (): Promise<BlogOutput[] | null> => Blog.findAll();
 const findPublicBlogs = (): Promise<BlogOutput[] | null> =>
   Blog.findAll({
     where: { allowed: true },
-    attributes: ['title', 'content'],
-    include: [{ model: User, attributes: ['userName'] }],
+    attributes: ['title', 'content', 'author'],
   });
 
 const findBlogByBlogID = (blogId: number): Promise<BlogOutput | null> => Blog.findOne({ where: { blogId } });

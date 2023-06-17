@@ -2,13 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 // Models
 const blog_1 = require("../models/blog");
-const user_1 = require("../models/user");
-const createNewBlog = (title, content, userId, email, allowed) => {
+const createNewBlog = (title, content, userId, userName, allowed) => {
     const blogInput = {
         title: title,
         content: content,
         userId: userId,
-        author: email,
+        author: userName,
         allowed: allowed || false,
     };
     const blog = blog_1.Blog.create(blogInput);
@@ -17,8 +16,7 @@ const createNewBlog = (title, content, userId, email, allowed) => {
 const findAllBlogs = () => blog_1.Blog.findAll();
 const findPublicBlogs = () => blog_1.Blog.findAll({
     where: { allowed: true },
-    attributes: ['title', 'content'],
-    include: [{ model: user_1.User, attributes: ['userName'] }],
+    attributes: ['title', 'content', 'author'],
 });
 const findBlogByBlogID = (blogId) => blog_1.Blog.findOne({ where: { blogId } });
 const findBlogByUserID = (userId) => blog_1.Blog.findAll({ where: { userId } });

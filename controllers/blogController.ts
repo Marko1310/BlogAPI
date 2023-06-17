@@ -26,7 +26,7 @@ interface PostBlogRequestBody {
 }
 
 const postBlog = async (req: Request, res: Response, next: NextFunction) => {
-  const { userId, email, role } = (req as customRequest).user;
+  const { userId, role, userName } = (req as customRequest).user;
   const { title, content }: PostBlogRequestBody = req.body;
 
   try {
@@ -35,9 +35,9 @@ const postBlog = async (req: Request, res: Response, next: NextFunction) => {
 
     let newBlog;
     if (role === 'admin') {
-      newBlog = await blogServices.createNewBlog(title, content, userId, email, true);
+      newBlog = await blogServices.createNewBlog(title, content, userId, userName, true);
     } else {
-      newBlog = await blogServices.createNewBlog(title, content, userId, email);
+      newBlog = await blogServices.createNewBlog(title, content, userId, userName);
     }
 
     res.status(200).json(newBlog);

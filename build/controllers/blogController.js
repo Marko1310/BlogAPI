@@ -10,17 +10,17 @@ const blogServices_1 = __importDefault(require("../services/blogServices"));
 const userServices_1 = __importDefault(require("../services/userServices"));
 const appErrorServices_1 = __importDefault(require("../services/appErrorServices"));
 const postBlog = async (req, res, next) => {
-    const { userId, email, role } = req.user;
+    const { userId, role, userName } = req.user;
     const { title, content } = req.body;
     try {
         inputController_1.default.isValidBlogTitle(title);
         inputController_1.default.isValidBlogContent(content);
         let newBlog;
         if (role === 'admin') {
-            newBlog = await blogServices_1.default.createNewBlog(title, content, userId, email, true);
+            newBlog = await blogServices_1.default.createNewBlog(title, content, userId, userName, true);
         }
         else {
-            newBlog = await blogServices_1.default.createNewBlog(title, content, userId, email);
+            newBlog = await blogServices_1.default.createNewBlog(title, content, userId, userName);
         }
         res.status(200).json(newBlog);
     }
