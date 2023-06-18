@@ -15,21 +15,8 @@ interface customRequest extends Request {
   user: UserOutput;
 }
 
-jest.mock('../controllers/inputController', () => ({
-  isValidBlogTitle: jest.fn(),
-  isValidBlogContent: jest.fn(),
-}));
-
-jest.mock('../services/blogServices', () => ({
-  createNewBlog: jest.fn().mockResolvedValue({
-    blogId: 1,
-    title: 'Test Blog',
-    content: 'This is a test blog post',
-    author: 'User1',
-    userId: 123,
-    allowed: true,
-  }),
-}));
+inputController.isValidBlogTitle = jest.fn();
+inputController.isValidBlogContent = jest.fn();
 
 describe('postBlog', () => {
   afterEach(() => {
@@ -57,14 +44,16 @@ describe('postBlog', () => {
     };
     const next = jest.fn();
 
-    const mockNewBlog = {
+    const blog = {
       blogId: 1,
       title: 'Test Blog',
       content: 'This is a test blog post',
       author: 'User1',
       userId: 123,
       allowed: true,
+      getUser: jest.fn(),
     };
+    blogServices.createNewBlog = jest.fn().mockResolvedValue(blog);
 
     await blogController.postBlog(req as Request, res as Response, next as NextFunction);
 
@@ -78,7 +67,7 @@ describe('postBlog', () => {
       true
     );
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith(mockNewBlog);
+    expect(res.json).toHaveBeenCalledWith(blog);
     expect(next).not.toHaveBeenCalled();
   });
 });
