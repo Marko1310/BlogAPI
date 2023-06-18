@@ -49,10 +49,10 @@ describe('blogServices', () => {
 
     const blogId = 123;
 
-    const result = await blogServices.findBlogByBlogID(blogId);
+    const result = await blogServices.findBlogByBlogID(123);
 
     expect(mockFindOne).toBeCalledTimes(1);
-    expect(mockFindOne).toBeCalledWith({ where: { blogId } });
+    expect(mockFindOne).toBeCalledWith({ where: { blogId: 123 } });
     expect(result).toEqual({} as BlogOutput);
   });
 
@@ -65,6 +65,6 @@ describe('blogServices', () => {
     await blogServices.allowBlog(blogId);
 
     expect(mockUpdate).toBeCalledTimes(1);
-    expect(mockUpdate).toBeCalledWith({ allowed }, { where: { blogId } });
+    expect(mockUpdate).toBeCalledWith({ allowed }, { where: { blogId: 123 } });
   });
 });
