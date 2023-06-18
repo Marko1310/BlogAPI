@@ -7,24 +7,10 @@ import userServices from '../services/userServices';
 import AppError from '../services/appErrorServices';
 import blogController from '../controllers/blogController';
 
-jest.mock('../services/blogServices', () => ({
-  findBlogByBlogID: jest.fn().mockResolvedValue({
-    blogId: 1,
-    title: 'Test Blog',
-    content: 'This is a test blog post',
-    author: 'User1',
-    userId: 123,
-    allowed: true,
-    getUser: jest.fn(),
-  }),
-  allowBlog: jest.fn().mockResolvedValue([1]),
-  declineBlog: jest.fn().mockResolvedValue([1]),
-}));
+// mocking function
+userServices.changeUserRole = jest.fn();
 
-jest.mock('../services/userServices', () => ({
-  changeUserRole: jest.fn(),
-}));
-
+// tests
 describe('AllowDeclinePost', () => {
   afterEach(() => {
     jest.restoreAllMocks();
@@ -43,7 +29,10 @@ describe('AllowDeclinePost', () => {
       allowed: true,
       getUser: jest.fn(),
     };
+
     blogServices.findBlogByBlogID = jest.fn().mockResolvedValue(blog);
+    blogServices.allowBlog = jest.fn().mockResolvedValue([1]);
+    blogServices.declineBlog = jest.fn().mockResolvedValue([0]);
 
     const mockUserOutput = {
       userId: 1,
@@ -81,21 +70,13 @@ describe('AllowDeclinePost', () => {
   });
 
   it('should throw new AppError if there is no blog', async () => {
-    jest.mock('../services/blogServices', () => ({
-      findBlogByBlogID: jest.fn().mockResolvedValue(null),
-      allowBlog: jest.fn().mockResolvedValue([0]),
-      declineBlog: jest.fn().mockResolvedValue([1]),
-    }));
-
-    jest.mock('../services/userServices', () => ({
-      changeUserRole: jest.fn(),
-    }));
+    const blog = null;
+    blogServices.findBlogByBlogID = jest.fn().mockResolvedValue(blog);
+    blogServices.allowBlog = jest.fn().mockResolvedValue([0]);
+    blogServices.declineBlog = jest.fn().mockResolvedValue([1]);
 
     const blogId = 1;
     const action = 'allow';
-
-    const blog = null;
-    blogServices.findBlogByBlogID = jest.fn().mockResolvedValue(blog);
 
     const mockError = new AppError(`There is no blog (blogId: ${blogId})`, 404);
 
@@ -115,17 +96,13 @@ describe('AllowDeclinePost', () => {
 
     await blogController.allowDeclinePost(req as Request, res as Response, next as NextFunction);
 
-    expect(blogServices.findBlogByBlogID).toHaveBeenCalledWith(blogId);
+    expect(blogServices.findBlogByBlogID).toHaveBeenCalledWith(1);
     expect(blogServices.allowBlog).not.toHaveBeenCalled();
     expect(userServices.changeUserRole).not.toHaveBeenCalled();
-
     expect(next).toHaveBeenCalledWith(mockError);
   });
 
   it('should throw new AppError if action is invalid', async () => {
-    const blogId = 1;
-    const action = 'invalid';
-
     const blog = {
       blogId: 1,
       title: 'Test Blog',
@@ -136,6 +113,9 @@ describe('AllowDeclinePost', () => {
       getUser: jest.fn(),
     };
     blogServices.findBlogByBlogID = jest.fn().mockResolvedValue(blog);
+
+    const blogId = 1;
+    const action = 'invalid';
 
     const mockUserOutput = {
       userId: 1,
@@ -169,7 +149,6 @@ describe('AllowDeclinePost', () => {
     expect(blogServices.findBlogByBlogID).toHaveBeenCalledWith(blogId);
     expect(blogServices.allowBlog).not.toHaveBeenCalled();
     expect(userServices.changeUserRole).not.toHaveBeenCalled();
-
     expect(next).toHaveBeenCalledWith(mockError);
   });
 });
