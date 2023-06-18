@@ -4,25 +4,19 @@ import { User } from '../models/user';
 import { Blog } from '../models/blog';
 
 test('it should call User.findAll once', async () => {
-  const mockFindAll = jest.fn();
-  User.findAll = mockFindAll;
+  User.findAll = jest.fn();
+
   await retrieveDataServices.getAllUsers('admin');
 
-  expect(mockFindAll).toHaveBeenCalled();
-
-  expect(mockFindAll).toHaveBeenCalledTimes(1);
-
-  mockFindAll.mockRestore();
+  expect(User.findAll).toHaveBeenCalled();
+  expect(User.findAll).toHaveBeenCalledTimes(1);
 });
 
 test('it should call Blog.findAll once', async () => {
-  const mockFindAll = jest.fn();
-  Blog.findAll = mockFindAll;
+  Blog.findAll = jest.fn();
+
   await retrieveDataServices.getRequestedPosts();
 
-  expect(mockFindAll).toHaveBeenCalled();
-
-  expect(mockFindAll).toHaveBeenCalledTimes(1);
-
-  mockFindAll.mockRestore();
+  expect(Blog.findAll).toHaveBeenCalled();
+  expect(Blog.findAll).toHaveBeenCalledTimes(1);
 });
