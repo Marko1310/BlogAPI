@@ -63,11 +63,11 @@ describe('AllowDeclinePost', () => {
         };
         const next = jest.fn();
         await blogController_1.default.allowDeclinePost(req, res, next);
-        expect(blogServices_1.default.findBlogByBlogID).toHaveBeenCalledWith(blogId);
-        expect(blogServices_1.default.allowBlog).toHaveBeenCalledWith(blogId);
+        expect(blogServices_1.default.findBlogByBlogID).toHaveBeenCalledWith(1);
+        expect(blogServices_1.default.allowBlog).toHaveBeenCalledWith(1);
         expect(userServices_1.default.changeUserRole).toHaveBeenCalledWith(1, 'blogger');
         expect(res.status).toHaveBeenCalledWith(200);
-        expect(res.json).toHaveBeenCalledWith(`Blog (blogId: ${blogId}) is allowed`);
+        expect(res.json).toHaveBeenCalledWith(`Blog (blogId: 1) is allowed`);
         expect(next).not.toHaveBeenCalled();
     });
     it('should throw new AppError if there is no blog', async () => {

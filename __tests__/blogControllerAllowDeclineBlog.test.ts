@@ -72,11 +72,11 @@ describe('AllowDeclinePost', () => {
 
     await blogController.allowDeclinePost(req as Request, res as Response, next as NextFunction);
 
-    expect(blogServices.findBlogByBlogID).toHaveBeenCalledWith(blogId);
-    expect(blogServices.allowBlog).toHaveBeenCalledWith(blogId);
+    expect(blogServices.findBlogByBlogID).toHaveBeenCalledWith(1);
+    expect(blogServices.allowBlog).toHaveBeenCalledWith(1);
     expect(userServices.changeUserRole).toHaveBeenCalledWith(1, 'blogger');
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.json).toHaveBeenCalledWith(`Blog (blogId: ${blogId}) is allowed`);
+    expect(res.json).toHaveBeenCalledWith(`Blog (blogId: 1) is allowed`);
     expect(next).not.toHaveBeenCalled();
   });
 

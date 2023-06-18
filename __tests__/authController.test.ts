@@ -6,40 +6,37 @@ import jwtServices from '../services/jwtServices';
 import AppError from '../services/appErrorServices';
 import bcryptServices from '../services/bcryptServices';
 
-jest.mock('../controllers/inputController', () => ({
-  isValidEmail: jest.fn(),
-  isValidPassword: jest.fn(),
-  isValidName: jest.fn(),
-  isValidUserName: jest.fn(),
-}));
+// mocked variables and functions
+const mockUserOutput = {
+  userId: 1,
+  email: 'test@example.com',
+  password: 'password123',
+  userName: 'User1',
+  firstName: 'John',
+  lastName: 'Doe',
+  role: 'user',
+};
 
-jest.mock('../services/userServices', () => ({
-  newUser: jest.fn().mockResolvedValue({
-    email: 'test@example.com',
-    password: 'password123',
-    userName: 'User1',
-    firstName: 'John',
-    lastName: 'Doe',
-    role: 'user',
-    userId: 1,
-  }),
-}));
+inputController.isValidEmail = jest.fn();
+inputController.isValidUserName = jest.fn();
+inputController.isValidPassword = jest.fn();
+inputController.isValidName = jest.fn();
+inputController.isValidName = jest.fn();
 
-jest.mock('../services/jwtServices', () => ({
-  sendJwtResponse: jest.fn(),
-}));
+userServices.newUser = jest.fn().mockResolvedValue(mockUserOutput);
 
-jest.mock('../services/bcryptServices', () => ({
-  checkPassword: jest.fn(),
-}));
+jwtServices.sendJwtResponse = jest.fn();
+
+bcryptServices.checkPassword = jest.fn();
 
 jest.mock('bcryptjs');
 
+// Tests
 describe('register user', () => {
   afterEach(() => {
     jest.restoreAllMocks();
   });
-  it('should perform basic input checks, call userServices.newUser and jwtServices.sendJwtResponse functions with the rigth parameters', async () => {
+  it('should perform basic input checks, call newUser and sendJwtResponse functions with the rigth parameters', async () => {
     const req: Partial<Request> = {
       body: {
         email: 'test@example.com',
@@ -54,16 +51,6 @@ describe('register user', () => {
       sendJwtResponse: jest.fn(),
     };
     const next = jest.fn();
-
-    const mockUserOutput = {
-      userId: 1,
-      email: 'test@example.com',
-      password: 'password123',
-      userName: 'User1',
-      firstName: 'John',
-      lastName: 'Doe',
-      role: 'user',
-    };
 
     await authController.register(req as Request, res as unknown as Response, next);
 
