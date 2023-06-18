@@ -1,9 +1,10 @@
 import bcryptServices from '../services/bcryptServices';
 import bcrypt from 'bcryptjs';
 
+bcrypt.compare = jest.fn();
+
 describe('bcrypt.compare', () => {
   it('should call bcrypt.compare with the right parameters', async () => {
-    const mockCompare = jest.spyOn(bcrypt, 'compare');
     const password = 'password';
     const user = {
       userId: 1,
@@ -17,7 +18,7 @@ describe('bcrypt.compare', () => {
 
     await bcryptServices.checkPassword(password, user);
 
-    expect(mockCompare).toHaveBeenCalledTimes(1);
-    expect(mockCompare).toHaveBeenLastCalledWith(password, user.password);
+    expect(bcrypt.compare).toHaveBeenCalledTimes(1);
+    expect(bcrypt.compare).toHaveBeenLastCalledWith(password, user.password);
   });
 });

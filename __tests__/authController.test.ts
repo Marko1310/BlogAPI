@@ -29,8 +29,6 @@ jwtServices.sendJwtResponse = jest.fn();
 
 bcryptServices.checkPassword = jest.fn();
 
-jest.mock('bcryptjs');
-
 // Tests
 describe('register user', () => {
   afterEach(() => {
