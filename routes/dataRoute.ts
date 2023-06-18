@@ -35,7 +35,7 @@ router.get(
 // @role    Admin/Blogger/User/Unauthenticated
 
 router.get(
-  '/posts',
+  '/auth/posts',
   publicMiddleware.allowPublicAccess,
   authMiddleware.requireAuth,
   authMiddleware.restrictTo('admin', 'blogger'),

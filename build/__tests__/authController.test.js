@@ -9,35 +9,30 @@ const userServices_1 = __importDefault(require("../services/userServices"));
 const jwtServices_1 = __importDefault(require("../services/jwtServices"));
 const appErrorServices_1 = __importDefault(require("../services/appErrorServices"));
 const bcryptServices_1 = __importDefault(require("../services/bcryptServices"));
-jest.mock('../controllers/inputController', () => ({
-    isValidEmail: jest.fn(),
-    isValidPassword: jest.fn(),
-    isValidName: jest.fn(),
-    isValidUserName: jest.fn(),
-}));
-jest.mock('../services/userServices', () => ({
-    newUser: jest.fn().mockResolvedValue({
-        email: 'test@example.com',
-        password: 'password123',
-        userName: 'User1',
-        firstName: 'John',
-        lastName: 'Doe',
-        role: 'user',
-        userId: 1,
-    }),
-}));
-jest.mock('../services/jwtServices', () => ({
-    sendJwtResponse: jest.fn(),
-}));
-jest.mock('../services/bcryptServices', () => ({
-    checkPassword: jest.fn(),
-}));
-jest.mock('bcryptjs');
+// mocked variables and functions
+const mockUserOutput = {
+    userId: 1,
+    email: 'test@example.com',
+    password: 'password123',
+    userName: 'User1',
+    firstName: 'John',
+    lastName: 'Doe',
+    role: 'user',
+};
+inputController_1.default.isValidEmail = jest.fn();
+inputController_1.default.isValidUserName = jest.fn();
+inputController_1.default.isValidPassword = jest.fn();
+inputController_1.default.isValidName = jest.fn();
+inputController_1.default.isValidName = jest.fn();
+userServices_1.default.newUser = jest.fn().mockResolvedValue(mockUserOutput);
+jwtServices_1.default.sendJwtResponse = jest.fn();
+bcryptServices_1.default.checkPassword = jest.fn();
+// Tests
 describe('register user', () => {
     afterEach(() => {
         jest.restoreAllMocks();
     });
-    it('should perform basic input checks, call userServices.newUser and jwtServices.sendJwtResponse functions with the rigth parameters', async () => {
+    it('should perform basic input checks, call newUser and sendJwtResponse functions with the rigth parameters', async () => {
         const req = {
             body: {
                 email: 'test@example.com',
@@ -52,15 +47,6 @@ describe('register user', () => {
             sendJwtResponse: jest.fn(),
         };
         const next = jest.fn();
-        const mockUserOutput = {
-            userId: 1,
-            email: 'test@example.com',
-            password: 'password123',
-            userName: 'User1',
-            firstName: 'John',
-            lastName: 'Doe',
-            role: 'user',
-        };
         await authController_1.default.register(req, res, next);
         expect(inputController_1.default.isValidEmail).toHaveBeenCalledWith('test@example.com');
         expect(inputController_1.default.isValidUserName).toHaveBeenCalledWith('User1');

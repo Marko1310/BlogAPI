@@ -7,7 +7,7 @@ const user_1 = require("../models/user");
 const userServices_1 = __importDefault(require("../services/userServices"));
 // 1.) Test newUser function
 test('newUser function should call User.create with correct parameters and store it in userInput variable', async () => {
-    const mockCreate = jest.spyOn(user_1.User, 'create').mockResolvedValueOnce({
+    user_1.User.create = jest.fn().mockResolvedValueOnce({
         userId: 1,
         firstName: 'John',
         lastName: 'Doe',
@@ -23,14 +23,14 @@ test('newUser function should call User.create with correct parameters and store
     const lastName = 'Doe';
     const role = 'user';
     const user = await userServices_1.default.newUser(email, userName, password, firstName, lastName, role);
-    expect(mockCreate).toHaveBeenCalledTimes(1);
-    expect(mockCreate).toHaveBeenCalledWith({
-        firstName,
-        lastName,
-        email,
-        password,
-        userName,
-        role,
+    expect(user_1.User.create).toHaveBeenCalledTimes(1);
+    expect(user_1.User.create).toHaveBeenCalledWith({
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'johndoe@example.com',
+        password: 'password',
+        userName: 'User1',
+        role: 'user',
     });
     expect(user).toEqual({
         userId: 1,
@@ -41,36 +41,29 @@ test('newUser function should call User.create with correct parameters and store
         password: 'password',
         role: 'user',
     });
-    mockCreate.mockRestore();
 });
 // 2.) Test findUserbyID function
 test('findUserbyID should call User.findOne with the correct parameters', async () => {
-    const mockFindOne = jest.fn();
-    user_1.User.findOne = mockFindOne;
+    user_1.User.findOne = jest.fn();
     const userId = 1;
     await userServices_1.default.findUserbyID(userId);
-    expect(mockFindOne).toHaveBeenCalledTimes(1);
-    expect(mockFindOne).toHaveBeenCalledWith({ where: { userId } });
-    mockFindOne.mockRestore();
+    expect(user_1.User.findOne).toHaveBeenCalledTimes(1);
+    expect(user_1.User.findOne).toHaveBeenCalledWith({ where: { userId: 1 } });
 });
 // 3.) Test findUserbyEmail function
 test('findUserbyEmail should call User.findOne with the correct parameters', async () => {
-    const mockFindOne = jest.fn();
-    user_1.User.findOne = mockFindOne;
+    user_1.User.findOne = jest.fn();
     const email = 'john.doe@example.com';
     await userServices_1.default.findUserbyEmail(email);
-    expect(mockFindOne).toHaveBeenCalledTimes(1);
-    expect(mockFindOne).toHaveBeenCalledWith({ where: { email } });
-    mockFindOne.mockRestore();
+    expect(user_1.User.findOne).toHaveBeenCalledTimes(1);
+    expect(user_1.User.findOne).toHaveBeenCalledWith({ where: { email: 'john.doe@example.com' } });
 });
 // 4.) Test changeUserRole function
 test('changeUserRole should call User.update with the correct parameters', async () => {
-    const mockUpdate = jest.fn();
-    user_1.User.update = mockUpdate;
+    user_1.User.update = jest.fn();
     const userId = 1;
     const newRole = 'blogger';
     await userServices_1.default.changeUserRole(userId, newRole);
-    expect(mockUpdate).toHaveBeenCalledTimes(1);
-    expect(mockUpdate).toHaveBeenCalledWith({ role: newRole }, { where: { userId } });
-    mockUpdate.mockRestore();
+    expect(user_1.User.update).toHaveBeenCalledTimes(1);
+    expect(user_1.User.update).toHaveBeenCalledWith({ role: 'blogger' }, { where: { userId: 1 } });
 });

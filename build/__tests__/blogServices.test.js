@@ -42,9 +42,9 @@ describe('blogServices', () => {
     it('should call Blog.findOne with the correct parameters and return the expected result', async () => {
         const mockFindOne = jest.spyOn(blog_1.Blog, 'findOne').mockResolvedValueOnce({});
         const blogId = 123;
-        const result = await blogServices_1.default.findBlogByBlogID(blogId);
+        const result = await blogServices_1.default.findBlogByBlogID(123);
         expect(mockFindOne).toBeCalledTimes(1);
-        expect(mockFindOne).toBeCalledWith({ where: { blogId } });
+        expect(mockFindOne).toBeCalledWith({ where: { blogId: 123 } });
         expect(result).toEqual({});
     });
     it('should call Blog.update with the correct parameters', async () => {
@@ -53,6 +53,6 @@ describe('blogServices', () => {
         const allowed = true;
         await blogServices_1.default.allowBlog(blogId);
         expect(mockUpdate).toBeCalledTimes(1);
-        expect(mockUpdate).toBeCalledWith({ allowed }, { where: { blogId } });
+        expect(mockUpdate).toBeCalledWith({ allowed }, { where: { blogId: 123 } });
     });
 });

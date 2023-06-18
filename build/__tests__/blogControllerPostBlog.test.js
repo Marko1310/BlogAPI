@@ -8,20 +8,8 @@ const inputController_1 = __importDefault(require("../controllers/inputControlle
 // services
 const blogServices_1 = __importDefault(require("../services/blogServices"));
 const blogController_1 = __importDefault(require("../controllers/blogController"));
-jest.mock('../controllers/inputController', () => ({
-    isValidBlogTitle: jest.fn(),
-    isValidBlogContent: jest.fn(),
-}));
-jest.mock('../services/blogServices', () => ({
-    createNewBlog: jest.fn().mockResolvedValue({
-        blogId: 1,
-        title: 'Test Blog',
-        content: 'This is a test blog post',
-        author: 'User1',
-        userId: 123,
-        allowed: true,
-    }),
-}));
+inputController_1.default.isValidBlogTitle = jest.fn();
+inputController_1.default.isValidBlogContent = jest.fn();
 describe('postBlog', () => {
     afterEach(() => {
         jest.restoreAllMocks();
@@ -47,20 +35,22 @@ describe('postBlog', () => {
             json: jest.fn(),
         };
         const next = jest.fn();
-        const mockNewBlog = {
+        const blog = {
             blogId: 1,
             title: 'Test Blog',
             content: 'This is a test blog post',
             author: 'User1',
             userId: 123,
             allowed: true,
+            getUser: jest.fn(),
         };
+        blogServices_1.default.createNewBlog = jest.fn().mockResolvedValue(blog);
         await blogController_1.default.postBlog(req, res, next);
         expect(inputController_1.default.isValidBlogTitle).toHaveBeenCalledWith('Test Blog');
         expect(inputController_1.default.isValidBlogContent).toHaveBeenCalledWith('This is a test blog post');
         expect(blogServices_1.default.createNewBlog).toHaveBeenCalledWith('Test Blog', 'This is a test blog post', 123, 'User1', true);
         expect(res.status).toHaveBeenCalledWith(200);
-        expect(res.json).toHaveBeenCalledWith(mockNewBlog);
+        expect(res.json).toHaveBeenCalledWith(blog);
         expect(next).not.toHaveBeenCalled();
     });
 });

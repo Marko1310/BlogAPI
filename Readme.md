@@ -33,8 +33,9 @@ To run the API locally, follow these steps:
 
 Clone this repository to your local machine.  
 Install the required dependencies by running npm install.  
-Start the development server with npm run dev.  
-Use a tool like Postman and follw the Postman documentation to make requests to the API.
+Start the development server with npm run dev.
+Start the production server with npm run dev.  
+Use a tool like Postman and follow the linked Postman documentation to make requests to the API.
 
 # Additional Features
 

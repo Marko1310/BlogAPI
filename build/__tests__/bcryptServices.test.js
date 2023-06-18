@@ -5,9 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const bcryptServices_1 = __importDefault(require("../services/bcryptServices"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
+bcryptjs_1.default.compare = jest.fn();
 describe('bcrypt.compare', () => {
     it('should call bcrypt.compare with the right parameters', async () => {
-        const mockCompare = jest.spyOn(bcryptjs_1.default, 'compare');
         const password = 'password';
         const user = {
             userId: 1,
@@ -19,7 +19,7 @@ describe('bcrypt.compare', () => {
             role: 'user',
         };
         await bcryptServices_1.default.checkPassword(password, user);
-        expect(mockCompare).toHaveBeenCalledTimes(1);
-        expect(mockCompare).toHaveBeenLastCalledWith(password, user.password);
+        expect(bcryptjs_1.default.compare).toHaveBeenCalledTimes(1);
+        expect(bcryptjs_1.default.compare).toHaveBeenLastCalledWith(password, user.password);
     });
 });
